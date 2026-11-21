@@ -51,7 +51,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               <Shield className="w-5 h-5 text-white" />
             </div>
             <span className="font-bold text-lg bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
-              HealthGuard
+              PriviCare
             </span>
           </div>
           <button
@@ -95,8 +95,8 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         {/* Bottom branding */}
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 dark:border-gray-800">
           <div className="text-xs text-gray-400 dark:text-gray-600 text-center">
-            <p>HealthGuard AI v1.0</p>
-            <p className="mt-0.5">PII Anonymization Engine</p>
+            <p>PriviCare v2.0.0</p>
+            <p className="mt-0.5">Doctor Clinical Intelligence & RAG</p>
           </div>
         </div>
       </aside>
