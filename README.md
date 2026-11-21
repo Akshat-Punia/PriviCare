@@ -28,8 +28,11 @@
 - [How It Works: Doctor Clinical Journey](#-how-it-works-doctor-clinical-journey)
 - [Local Machine Execution (HDD/SSD, No Chrome)](#-local-machine-execution-hddssd-no-chrome)
 - [Patient Chat History Review for Doctors](#-patient-chat-history-review-for-doctors)
+- [Patient-Side Interface & 24/7 Recovery AI](#-patient-side-interface--247-recovery-ai)
+- [DPDP Act 2023 & ABDM Verified Identifiers](#-dpdp-act-2023--abdm-verified-identifiers)
 - [Historical Medical Report Analysis & OCR](#-historical-medical-report-analysis--ocr)
 - [Doctor AI Clinical Co-Pilot (RAG-Powered)](#-doctor-ai-clinical-co-pilot-rag-powered)
+- [Automated Verification & Test Suite (28 Tests)](#-automated-verification--test-suite-28-tests)
 - [Benchmark Results & Confusion Matrix (250 Documents)](#-benchmark-results--confusion-matrix-250-documents)
 - [Vector X-Ray: Storage Proof Protocol](#-vector-x-ray-storage-proof-protocol)
 - [DPDP Act Section 12 Cryptographic Erasure](#-dpdp-act-section-12-cryptographic-erasure)
@@ -128,6 +131,70 @@ PriviCare is engineered to execute **completely on-premises**:
 Patients often ask the AI questions about their medications or new symptoms after discharge. PriviCare allows attending doctors to review this transcript:
 - **Triage Badges**: Automatically categorizes inquiries as `URGENT_ATTENTION` (e.g., post-stent exertional chest tightness, peripheral neuropathy), `EVALUATE_MEDICATION` (e.g., statin-related myalgia), or `ROUTINE`.
 - **Acknowledge & Clinical Notes**: Clinicians can mark interactions as reviewed and append clinical notes directly into the patient's record.
+
+---
+
+## 🏥 Patient-Side Interface & 24/7 Recovery AI
+
+PriviCare features a dedicated, privacy-first **Patient Portal** accessible via the top role switcher in the Web/Desktop app, the Next.js portal (`/dashboard/patient`), and the Flutter mobile client (`patient_portal_screen.dart`):
+
+1. **Daily Medication & Care Plan Checklist**:
+   - Interactive prescription schedule (e.g., *Atorvastatin 40mg*, *Aspirin 75mg*, *Metoprolol ER 25mg*) with dose timing and food instructions.
+   - **Allergy Precaution Banner**: Highlighting verified drug sensitivities (e.g., *Penicillin Group anaphylactoid precaution*).
+   - **Recovery Milestones**: 30-min walking adherence, low-sodium monitoring, and next clinic visit alerts.
+2. **Medical Reports Vault**:
+   - AES-256 GCM encrypted archive of discharge summaries, lipid biochemistry, and ECG recordings.
+   - Built-in **Camera Document Scanner** to capture paper reports with instant on-device PII stripping.
+3. **24/7 Recovery AI Assistant**:
+   - Grounded conversational assistant for medication queries, dietary advice, and recovery guidance.
+   - **Automated Clinical Triage Engine**:
+     - `ROUTINE`: Answers patient recovery queries safely with zero PHI leaked.
+     - `EVALUATE_MEDICATION`: Detects drug-induced symptoms (e.g. statin myalgia) and syncs to doctor queue.
+     - `URGENT_ATTENTION`: Immediately alerts the patient to seek urgent care and flags the doctor's dashboard.
+4. **DPDP Act 2023 Section 12 Right to Erasure**:
+   - Patient-initiated **Cryptographic Shredding** that purges session keys and makes past RAG vectors un-linkable forever.
+
+---
+
+## 🆔 DPDP Act 2023 & ABDM Verified Identifiers
+
+PriviCare integrates verified national health identity standards for Indian healthcare deployments:
+
+- **ABDM 14-Digit ABHA ID & `@abdm`**: Conforms to National Health Authority (NHA) Ayushman Bharat Digital Mission format specifications.
+- **Aadhaar 12-Digit Verhoeff $D_5$ Dihedral Checksum**:
+  - Implements the non-commutative dihedral group $D_5$ algorithm (symmetries of a regular pentagon).
+  - Catches **100% of single-digit transcription errors** ($x \rightarrow y$) and **100% of adjacent transpositions** ($xy \rightarrow yx$).
+  - Auto-formats input as `XXXX XXXX XXXX` and computes expected check digits.
+- **TRAI / DoT E.164 Mobile Verification**: Validates 10-digit Indian mobile numbers adhering to the National Numbering Plan.
+- **Hospital UHID Generator**: Follows ISO 27527 healthcare master index standards.
+
+---
+
+## 🧪 Automated Verification & Test Suite (28 Tests)
+
+PriviCare includes a comprehensive 28-point automated test harness:
+
+1. **14 Adversarial Leakage & Compliance Tests** (`backend/tests/test_leakage.py`):
+   - Strict HIPAA 18 Safe Harbor identifier scrubbing.
+   - India DPDP Act 2023 identifiers (Aadhaar, ABHA, PAN, Indian phone series).
+   - Verhoeff checksum algorithm correctness across valid and corrupted numbers.
+   - Vector storage zero-leakage verification.
+   - ABAC role-based access control (Doctor authorized vs. Researcher fail-closed).
+2. **14 Full-Stack Integration Tests** (`backend/test_endpoints.py`):
+   - Health check and benchmark retrieval.
+   - Vector X-Ray deep storage inspection.
+   - Clinician re-identification and fail-closed researcher queries.
+   - Patient enrollment and multi-report retrieval.
+   - Doctor RAG Co-Pilot clinical consultation.
+   - Live Verhoeff D5 & ABDM ABHA identity verification.
+   - Patient 24/7 Recovery AI chat with automated triage classification.
+   - Section 12 Cryptographic Shredding execution.
+
+```cmd
+python backend/tests/test_leakage.py
+python backend/test_endpoints.py
+```
+*All 28 tests pass with 100% compliance.*
 
 ---
 

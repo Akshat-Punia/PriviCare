@@ -8,7 +8,17 @@ if backend_dir not in sys.path:
 from main import health_check
 from routes.privacy import switch_role, SwitchRoleRequest, generate_erasure_report, ErasureRequest, vector_storage_xray, get_benchmark_results
 from routes.chat import chat, ChatRequest
-from routes.clinical import list_patients, get_patient, doctor_consult, DoctorConsultRequest
+from routes.clinical import (
+    list_patients,
+    get_patient,
+    doctor_consult,
+    DoctorConsultRequest,
+    validate_identity,
+    ValidateIdentityRequest,
+    patient_chat_endpoint,
+    PatientChatRequest,
+    crypto_shred_patient_endpoint,
+)
 
 print("[TEST 1] health_check", flush=True)
 res1 = health_check()
@@ -88,4 +98,30 @@ print("Doctor Consult Answer Preview:", consult_res["answer"][:80], flush=True)
 assert consult_res["status"] == "success"
 assert consult_res["security_audit"]["abac_status"] == "AUTHORIZED"
 
-print("\n>>> ALL 11 INTEGRATION TESTS PASSED PERFECTLY! <<<", flush=True)
+print("\n[TEST 12] validate_identity (Verhoeff D5 Checksum & ABDM ABHA)", flush=True)
+v_aadhaar = validate_identity(ValidateIdentityRequest(type="aadhaar", value="3675 8492 1039"))
+print("Aadhaar Verhoeff Valid:", v_aadhaar["valid"], "| Algorithm:", v_aadhaar["algorithm"], flush=True)
+assert v_aadhaar["valid"] is True
+v_bad = validate_identity(ValidateIdentityRequest(type="aadhaar", value="3675 8492 1038"))
+print("Invalid Aadhaar Rejected:", not v_bad["valid"], "| Reason:", v_bad["reason"], flush=True)
+assert v_bad["valid"] is False
+v_abha = validate_identity(ValidateIdentityRequest(type="abha", value="14-2354-9871-6542"))
+assert v_abha["valid"] is True
+v_phone = validate_identity(ValidateIdentityRequest(type="phone", value="+91 98765 43210"))
+assert v_phone["valid"] is True
+
+print("\n[TEST 13] patient_chat (Patient 24/7 Recovery AI & Triage Sync)", flush=True)
+p_chat = patient_chat_endpoint(PatientChatRequest(
+    uhid="UHID-982143",
+    message="Is mild calf soreness normal with Atorvastatin 40mg?"
+))
+print("Clinical Triage:", p_chat["clinical_triage"], "| Synced to Doctor:", p_chat["synced_to_doctor"], flush=True)
+assert p_chat["clinical_triage"] == "EVALUATE_MEDICATION"
+assert p_chat["status"] == "success"
+
+print("\n[TEST 14] crypto_shred (DPDP Act 2023 Section 12 Right to Erasure)", flush=True)
+shred_res = crypto_shred_patient_endpoint("UHID-982143")
+print("Erasure Status:", shred_res["status"], "| Section:", shred_res["section"], flush=True)
+assert shred_res["status"] == "shredded"
+
+print("\n>>> ALL 14 INTEGRATION TESTS PASSED PERFECTLY! <<<", flush=True)
