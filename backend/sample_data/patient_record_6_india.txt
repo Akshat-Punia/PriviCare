@@ -1,0 +1,76 @@
+===============================================================================
+                    APOLLO HOSPITALS, BANNERGHATTA ROAD, BANGALORE
+                      DEPARTMENT OF ENDOCRINOLOGY & METABOLISM
+                             OUTPATIENT CLINICAL SUMMARY
+===============================================================================
+
+DATE OF CONSULTATION: 18/06/2024
+ATTENDING PHYSICIAN: Dr. Priya Nair, MBBS, MD, DM (Endocrinology)
+PATIENT NAME: Sunita Rao
+DATE OF BIRTH: 22/11/1971
+AGE: 52 years
+SEX: Female
+ABHA HEALTH ID: 91-8841-3320-5619
+ABHA ADDRESS: sunita.rao@abdm
+AADHAAR NUMBER: 5123 4567 8903 (Verhoeff Verified)
+INCOME TAX PAN: BKXPR4821N
+MOBILE NUMBER: +91 94481 23456
+EMERGENCY CONTACT: Vikram Rao (Husband) - +91 94481 98765
+ADDRESS: Villa 12, Sobha Greenwoods, Sarjapur Road, Bangalore 560035
+HOSPITAL UHID: UHID-774129
+OPD CONSULTATION NO: OPD-2024-8841
+CENTRAL GOVT HEALTH SCHEME (CGHS) ID: CGHS-BLR-441920
+
+===============================================================================
+REASON FOR VISIT:
+===============================================================================
+Mrs. Sunita Rao presents for quarterly management of poorly controlled Type 2
+Diabetes Mellitus, progressive peripheral neuropathy in both lower extremities,
+and recent thyroid gland swelling noticed during swallowing.
+
+===============================================================================
+CLINICAL HISTORY & SYMPTOMS:
+===============================================================================
+Mrs. Sunita Rao has an 8-year history of diabetes mellitus and secondary hypothyroidism.
+She reports persistent burning paresthesia in both feet with nocturnal exacerbation.
+Her recent home glucometer logs demonstrate morning fasting glucose ranging from
+175 to 210 mg/dL, and post-prandial spikes exceeding 270 mg/dL.
+She also notes cold intolerance, 3 kg weight gain over 4 months, and a palpable
+painless nodule on the right anterior neck.
+
+===============================================================================
+PHYSICAL EXAMINATION:
+===============================================================================
+General: Alert, oriented, mild pallor. No pedal edema.
+Blood Pressure: 136/84 mmHg | Pulse: 72 bpm | Weight: 68 kg | Height: 158 cm
+Neck: Palpable 1.5 cm smooth, non-tender, firm nodule in the right thyroid lobe.
+Moves synchronously with deglutition. No cervical lymphadenopathy.
+Neurological: Symmetrical stocking-pattern diminished sensation to 10g monofilament
+over both plantae. Ankle reflexes bilaterally depressed. Vibration sense decreased at halluces.
+
+===============================================================================
+DIAGNOSTIC INVESTIGATIONS:
+===============================================================================
+HbA1c: 9.8% (Target < 7.0%)
+Fasting Blood Sugar: 188 mg/dL | Post-Prandial Blood Sugar: 282 mg/dL
+TSH: 7.42 uIU/mL (High; normal: 0.4 - 4.5 uIU/mL)
+Free T4: 0.88 ng/dL (Low-normal)
+Serum Creatinine: 0.85 mg/dL | eGFR: 84 mL/min/1.73m2
+Urine Microalbumin/Creatinine Ratio: 48 mg/g (Microalbuminuria detected)
+High-Resolution Thyroid Ultrasound (USG): Solitary well-defined hypoechoic nodule
+(14 x 11 x 12 mm) in right thyroid lobe, TIRADS-3 (Low risk of malignancy).
+FNAC recommended to definitively rule out papillary thyroid carcinoma.
+
+===============================================================================
+MANAGEMENT PLAN & PRESCRIPTION:
+===============================================================================
+1. Tab Metformin HCl (Glycomet-SR) 1000 mg - 1 tablet twice daily with meals.
+2. Tab Linagliptin 5 mg - 1 tablet once daily before lunch (cardiovascular-safe DPP-4i).
+3. Tab Dapagliflozin 10 mg - 1 tablet once daily in morning (renal & glycemic protection).
+4. Tab Levothyroxine Sodium (Thyronorm) 75 mcg - 1 tablet early morning empty stomach.
+5. Tab Pregabalin 75 mg - 1 capsule at bedtime for diabetic neuropathic pain.
+6. Tab Methylcobalamin 1500 mcg - 1 tablet once daily.
+
+USG-guided Fine Needle Aspiration Cytology (FNAC) scheduled for next Tuesday with Dr. Priya Nair.
+Dietary counseling completed: Low glycemic index South Indian diet with carbohydrate portion control.
+===============================================================================

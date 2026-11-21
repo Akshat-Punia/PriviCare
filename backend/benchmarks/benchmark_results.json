@@ -1,0 +1,105 @@
+{
+  "benchmark_metadata": {
+    "total_documents": 250,
+    "total_labeled_entities": 1420,
+    "execution_time_seconds": 0.16,
+    "throughput_docs_per_sec": 1602.7,
+    "mean_latency_ms": 0.61,
+    "p95_latency_ms": 0.65
+  },
+  "confusion_matrix": {
+    "true_positives": 1397,
+    "false_negatives": 23,
+    "false_positives": 31,
+    "true_negatives": 14850
+  },
+  "metrics": {
+    "recall": 98.38,
+    "precision": 97.83,
+    "f1_score": 98.1,
+    "accuracy": 99.67
+  },
+  "entity_breakdown": {
+    "AADHAAR": {
+      "labeled": 175,
+      "tp": 174,
+      "fn": 1,
+      "fp": 2,
+      "recall": 99.43,
+      "precision": 98.86
+    },
+    "ABHA_ID": {
+      "labeled": 175,
+      "tp": 173,
+      "fn": 2,
+      "fp": 3,
+      "recall": 98.86,
+      "precision": 98.3
+    },
+    "PAN_NUMBER": {
+      "labeled": 160,
+      "tp": 159,
+      "fn": 1,
+      "fp": 2,
+      "recall": 99.38,
+      "precision": 98.76
+    },
+    "PHONE_5_FORMATS": {
+      "labeled": 180,
+      "tp": 178,
+      "fn": 2,
+      "fp": 4,
+      "recall": 98.89,
+      "precision": 97.8
+    },
+    "UHID": {
+      "labeled": 130,
+      "tp": 128,
+      "fn": 2,
+      "fp": 3,
+      "recall": 98.46,
+      "precision": 97.71
+    },
+    "PATIENT_NAME": {
+      "labeled": 250,
+      "tp": 245,
+      "fn": 5,
+      "fp": 6,
+      "recall": 98.0,
+      "precision": 97.61
+    },
+    "DOCTOR_NAME": {
+      "labeled": 200,
+      "tp": 196,
+      "fn": 4,
+      "fp": 5,
+      "recall": 98.0,
+      "precision": 97.51
+    },
+    "WARD_BED": {
+      "labeled": 70,
+      "tp": 68,
+      "fn": 2,
+      "fp": 2,
+      "recall": 97.14,
+      "precision": 97.14
+    },
+    "DATE_TIME": {
+      "labeled": 50,
+      "tp": 48,
+      "fn": 2,
+      "fp": 3,
+      "recall": 96.0,
+      "precision": 94.12
+    },
+    "EMAIL_ADDRESS": {
+      "labeled": 30,
+      "tp": 28,
+      "fn": 2,
+      "fp": 1,
+      "recall": 93.33,
+      "precision": 96.55
+    }
+  },
+  "compliance_statement": "HealthGuard AI is designed to prevent detected PHI and PII from entering vector storage or external model requests, with leakage testing, auditability and fail-closed processing."
+}

@@ -1,0 +1,130 @@
+===============================================================================
+                      PORTLAND MEDICAL CENTER
+                      DEPARTMENT OF ONCOLOGY
+                      CONSULTATION NOTE
+===============================================================================
+
+DATE OF CONSULTATION: 03/08/2024
+CONSULTING PHYSICIAN: Dr. Robert Williams, MD, FASCO
+PATIENT NAME: Emily Rose Chen
+DATE OF BIRTH: 11/22/1985
+AGE: 38 years
+SEX: Female
+SSN: 987-65-4321
+PHONE: (555) 876-1234
+ADDRESS: 78 Maple Avenue, Portland, OR 97201
+MEDICAL RECORD #: PMC-2024-11283
+INSURANCE: BlueCross BlueShield — Policy #BC-445566
+EMERGENCY CONTACT: David Chen (husband) — (555) 876-5555
+
+===============================================================================
+REASON FOR CONSULTATION:
+===============================================================================
+Newly diagnosed left breast carcinoma. Referred by Dr. Amanda Foster (primary
+care) for oncologic evaluation and treatment planning following abnormal
+screening mammogram and subsequent biopsy.
+
+===============================================================================
+HISTORY OF PRESENT ILLNESS:
+===============================================================================
+Ms. Emily Rose Chen is a 38-year-old female who presented to her primary care
+physician on 02/12/2024 after detecting a palpable lump in her left breast
+during self-examination. A diagnostic mammogram performed on 02/15/2024
+revealed a 2.3 cm spiculated mass in the upper outer quadrant of the left
+breast (BI-RADS 5). Ultrasound-guided core needle biopsy was performed on
+02/22/2024.
+
+PATHOLOGY REPORT (02/26/2024): Invasive ductal carcinoma, Grade 2.
+Estrogen receptor (ER): Positive (90%), Progesterone receptor (PR): Positive
+(75%), HER2/neu: Negative (IHC 1+), Ki-67: 22%.
+
+Sentinel lymph node biopsy (03/01/2024): 1 of 3 sentinel nodes positive for
+micrometastasis (0.8 mm focus).
+
+STAGING: Stage IIB (T2 N1mi M0)
+
+===============================================================================
+PAST MEDICAL HISTORY:
+===============================================================================
+1. Mild asthma — well controlled with PRN albuterol
+2. Seasonal allergic rhinitis
+3. No prior malignancies
+
+SURGICAL HISTORY: Cesarean section (2018), Wisdom teeth extraction (2010)
+
+FAMILY HISTORY: Mother diagnosed with breast cancer at age 52 (currently in
+remission). Maternal grandmother deceased from ovarian cancer at age 67.
+Father alive, age 68, with hypertension. Genetic counseling referral placed
+for BRCA1/BRCA2 testing.
+
+SOCIAL HISTORY: Non-smoker, non-drinker. Works as a software engineer at a
+technology firm. Married to David Chen with one child (age 6). Active
+lifestyle, regular yoga practice.
+
+ALLERGIES: Sulfonamides (rash)
+
+===============================================================================
+PHYSICAL EXAMINATION:
+===============================================================================
+VITALS: BP 122/78 mmHg, HR 72 bpm, RR 16, Temp 98.6°F, Weight 132 lbs
+GENERAL: Well-nourished female, appears stated age, anxious but cooperative
+BREAST: Left breast with palpable 2.5 cm firm, non-tender mass at 10 o'clock
+        position, 4 cm from nipple. No skin changes, no nipple discharge.
+        Right breast unremarkable.
+LYMPH NODES: No palpable axillary, supraclavicular, or cervical adenopathy
+LUNGS: Clear bilaterally
+ABDOMEN: Soft, non-tender, no hepatomegaly
+
+===============================================================================
+LABORATORY RESULTS (03/06/2024):
+===============================================================================
+- CBC: WBC 6.8, Hgb 13.2, Plt 245
+- CMP: All within normal limits
+- CA 15-3: 28 U/mL (normal <30)
+- CA 27.29: 24 U/mL (normal <38)
+- Liver function tests: Normal
+- CT Chest/Abdomen/Pelvis (03/05/2024): No evidence of distant metastasis
+
+===============================================================================
+TREATMENT PLAN:
+===============================================================================
+After multidisciplinary tumor board review on 03/07/2024, the following plan
+was discussed with Ms. Chen and her husband David Chen:
+
+1. NEOADJUVANT CHEMOTHERAPY:
+   - Regimen: Dose-dense AC-T (Doxorubicin/Cyclophosphamide followed by
+     Paclitaxel)
+   - Schedule:
+     * AC: Doxorubicin 60 mg/m² + Cyclophosphamide 600 mg/m² IV q2 weeks × 4
+       cycles (starting 03/18/2024)
+     * Paclitaxel: 80 mg/m² IV weekly × 12 weeks (starting approximately
+       05/13/2024)
+   - Growth factor support: Pegfilgrastim after each AC cycle
+   - Port-a-cath placement scheduled for 03/14/2024
+
+2. SURGICAL INTERVENTION (post-chemotherapy):
+   - Lumpectomy with axillary lymph node dissection anticipated August 2024
+
+3. ADJUVANT THERAPY:
+   - Radiation therapy (post-surgical, approximately September 2024)
+   - Endocrine therapy: Tamoxifen 20 mg daily × 5-10 years
+
+4. SUPPORTIVE CARE:
+   - Fertility preservation consultation (reproductive endocrinology referral)
+   - Psycho-oncology support referral
+   - Nutritional counseling
+
+===============================================================================
+FOLLOW-UP:
+===============================================================================
+- Pre-chemotherapy labs and echocardiogram: 03/13/2024
+- Chemotherapy cycle 1: 03/18/2024 at Portland Medical Center Infusion Center
+- Follow-up with Dr. Robert Williams: 04/01/2024
+- Genetic counseling appointment: 03/25/2024
+- Patient provided with educational materials and support group information
+
+===============================================================================
+ELECTRONICALLY SIGNED: Dr. Robert Williams, MD, FASCO
+DATE: 03/08/2024 15:30 PST
+Portland Medical Center — Department of Oncology
+===============================================================================

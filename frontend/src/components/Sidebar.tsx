@@ -10,6 +10,7 @@ import {
   X,
   Shield,
   ShieldCheck,
+  UserCheck,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -18,7 +19,8 @@ interface SidebarProps {
 }
 
 const navItems = [
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/dashboard", label: "Doctor Dashboard", icon: LayoutDashboard },
+  { href: "/dashboard/patient", label: "Patient Portal", icon: UserCheck },
   { href: "/dashboard/upload", label: "Upload Documents", icon: Upload },
   { href: "/dashboard/chat", label: "Chat", icon: MessageSquare },
   { href: "/dashboard/audit", label: "Audit & Vector X-Ray", icon: ShieldCheck },

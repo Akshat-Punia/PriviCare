@@ -1,0 +1,17 @@
+fastapi
+uvicorn[standard]
+python-dotenv
+presidio-analyzer
+presidio-anonymizer
+spacy
+lancedb
+openai
+sentence-transformers
+python-multipart
+PyPDF2
+pydantic
+passlib[bcrypt]
+python-jose[cryptography]
+supabase
+pyarrow
+tantivy

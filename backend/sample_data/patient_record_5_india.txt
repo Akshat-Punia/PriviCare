@@ -1,0 +1,88 @@
+===============================================================================
+               ALL INDIA INSTITUTE OF MEDICAL SCIENCES (AIIMS), NEW DELHI
+                           DEPARTMENT OF CARDIOLOGY
+                          INPATIENT ADMISSION RECORD
+===============================================================================
+
+DATE OF ADMISSION: 12/04/2024
+ATTENDING PHYSICIAN: Dr. Rajesh Sharma, MD, DM (Cardiology), FACC
+PATIENT NAME: Aarav Patel
+DATE OF BIRTH: 14/08/1982
+AGE: 42 years
+SEX: Male
+ABHA HEALTH ID: 14-2354-9871-6542
+ABHA ADDRESS: aarav.patel@abdm
+AADHAAR NUMBER: 3675 8492 1039 (Verhoeff Verified)
+INCOME TAX PAN: ABCDE1234F
+MOBILE NUMBER: +91 98765 43210
+EMERGENCY CONTACT: Priya Nair (Wife) - +91 98111 22334
+ADDRESS: Flat 402, Shivalik Apartments, Sector 14, Rohini, New Delhi 110085
+HOSPITAL UHID: UHID-908231
+IPD REGISTRATION NO: IPD-4412
+ADMITTED TO: Ward-B, Bed-14 (Cardiology High Dependency Unit)
+INSURANCE: Ayushman Bharat PM-JAY Card: AB-PMJAY-9928103
+
+===============================================================================
+CHIEF COMPLAINT:
+===============================================================================
+Patient Aarav Patel was admitted through the emergency triage presenting with
+acute retrosternal chest pain of 4 hours duration, radiating to the left shoulder
+and jaw, accompanied by profuse diaphoresis, dyspnea, and nausea.
+
+===============================================================================
+HISTORY OF PRESENT ILLNESS:
+===============================================================================
+Mr. Aarav Patel is a 42-year-old software architect with a known history of
+systemic hypertension for 4 years and dyslipidemia. Symptoms commenced around
+06:30 AM while at home. Pain was described as intense crushing pressure (8/10),
+not relieved by rest or sublingual sorbitrate administered at a local dispensary.
+Dr. Rajesh Sharma evaluated the patient in the cardiac casualty unit. Initial
+12-lead ECG demonstrated ST-segment elevation in leads V2-V5 with reciprocal
+ST depressions in III and aVF, consistent with Acute Anterior Wall STEMI.
+
+===============================================================================
+VITAL SIGNS & CLINICAL EXAMINATION:
+===============================================================================
+Blood Pressure: 154/96 mmHg (Right arm, supine)
+Heart Rate: 98 bpm (Regular, sinus rhythm)
+Respiratory Rate: 22 breaths/min
+SpO2: 95% on room air; 99% on 4L nasal cannula oxygen
+BMI: 27.4 kg/m2
+
+Cardiovascular: S1 S2 heard; soft S4 gallop at cardiac apex. No murmurs or friction rubs.
+Chest: Bilateral basal end-inspiratory crackles audible up to lower lung zones.
+Abdomen: Soft, non-tender, no organomegaly.
+
+===============================================================================
+LABORATORY INVESTIGATIONS (AIIMS CENTRAL CLINICAL LAB):
+===============================================================================
+Troponin-I: 14.8 ng/mL (High; normal < 0.04 ng/mL)
+CK-MB: 84 U/L (Elevated)
+Serum Creatinine: 1.02 mg/dL
+Blood Urea: 28 mg/dL
+Fasting Plasma Glucose: 138 mg/dL
+HbA1c: 6.4% (Pre-diabetic range)
+Total Cholesterol: 242 mg/dL; LDL: 168 mg/dL; Triglycerides: 210 mg/dL
+
+===============================================================================
+PROCEDURE & INTERVENTION:
+===============================================================================
+The patient was transferred immediately to the Cardiac Catheterization Lab for
+primary percutaneous coronary intervention (PCI).
+- Access: Right Radial Artery
+- Coronary Angiogram: 95% proximal thrombotic occlusion of Left Anterior Descending (LAD) artery.
+- Successful drug-eluting stent (DES - 3.0 x 28 mm) deployed with TIMI-3 distal flow achieved.
+- Peak ACT maintained > 250s with unfractionated heparin.
+
+===============================================================================
+DISCHARGE MEDICATIONS & CARE PLAN:
+===============================================================================
+1. Tab Ecosprin (Aspirin) 75 mg - 1 tablet once daily after breakfast.
+2. Tab Brilinta (Ticagrelor) 90 mg - 1 tablet twice daily.
+3. Tab Atorvastatin 80 mg - 1 tablet at bedtime.
+4. Tab Metoprolol Succinate ER 25 mg - 1 tablet once daily.
+5. Tab Ramipril 2.5 mg - 1 tablet once daily.
+6. Tab Pantoprazole 40 mg - 1 tablet daily before breakfast.
+
+Follow up with Dr. Rajesh Sharma at AIIMS Cardiology OPD-2 in 14 days with repeat ECG and echocardiogram.
+===============================================================================

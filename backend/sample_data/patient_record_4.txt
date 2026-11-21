@@ -1,0 +1,111 @@
+===============================================================================
+                      MIAMI GENERAL HOSPITAL
+                      DEPARTMENT OF OBSTETRICS & GYNECOLOGY
+                      PRENATAL VISIT NOTE
+===============================================================================
+
+DATE OF VISIT: 06/12/2024
+ATTENDING PHYSICIAN: Dr. James Martinez, MD, FACOG
+PATIENT NAME: Sofia Isabella Rodriguez
+DATE OF BIRTH: 09/30/1995
+AGE: 28 years
+SEX: Female
+SSN: 234-56-7890
+PHONE: (555) 567-8901
+ADDRESS: 456 Cedar Lane, Miami, FL 33101
+MEDICAL RECORD #: MGH-2024-07654
+EMERGENCY CONTACT: Rosa Rodriguez (mother) — (555) 567-0000
+
+===============================================================================
+VISIT TYPE: Routine Prenatal Visit — 32 Weeks Gestation
+===============================================================================
+GRAVIDA: 1  PARA: 0  EDD: 08/06/2024 (by first trimester ultrasound)
+GESTATIONAL AGE: 32 weeks, 1 day
+LMP: 10/31/2023
+
+===============================================================================
+HISTORY OF PRESENT ILLNESS:
+===============================================================================
+Ms. Sofia Isabella Rodriguez is a 28-year-old primigravida at 32 weeks and 1
+day gestation presenting for routine prenatal care. Ms. Rodriguez reports
+feeling well overall. She describes regular fetal movement with kick counts
+averaging 8-10 per hour during evening monitoring. She reports mild lower back
+pain and occasional Braxton-Hicks contractions (2-3 per day, irregular, non-
+painful). She denies vaginal bleeding, leaking of fluid, persistent
+contractions, headache, visual changes, or epigastric pain. She reports
+mild bilateral ankle swelling at the end of the day, improved with elevation.
+
+===============================================================================
+CURRENT MEDICATIONS:
+===============================================================================
+1. Prenatal vitamins with DHA — daily
+2. Iron supplement (Ferrous sulfate 325 mg) PO daily
+3. Calcium carbonate 600 mg PO twice daily
+
+ALLERGIES: No known drug allergies
+
+===============================================================================
+PHYSICAL EXAMINATION:
+===============================================================================
+VITALS: BP 118/72 mmHg, HR 82 bpm, Weight 158 lbs (pre-pregnancy 135 lbs,
+        total gain 23 lbs)
+GENERAL: Well-appearing, comfortable
+ABDOMEN: Gravid uterus, fundal height 32 cm (appropriate for gestational age)
+         Fetal presentation: Cephalic (vertex) by Leopold maneuvers
+         FHR: 148 bpm by Doppler, reactive
+EXTREMITIES: Trace bilateral pedal edema, 1+ pitting
+
+===============================================================================
+ULTRASOUND FINDINGS (06/12/2024):
+===============================================================================
+- Singleton viable intrauterine pregnancy, cephalic presentation
+- Estimated fetal weight: 1,890 grams (42nd percentile)
+- Biophysical profile: 8/8
+- Amniotic fluid index: 14.2 cm (normal)
+- Placenta: Posterior, Grade I, no previa
+- Cervical length: 3.6 cm (normal, closed)
+- Fetal anatomy: No anomalies detected
+- Gender: Female
+
+===============================================================================
+LABORATORY RESULTS (06/10/2024):
+===============================================================================
+- Hemoglobin: 11.2 g/dL (mildly low, consistent with physiologic anemia)
+- Hematocrit: 33.8%
+- Platelet count: 218,000/μL
+- Blood glucose (1-hr GCT at 28 weeks): 124 mg/dL (normal, <140)
+- GBS culture: Pending (to be collected at 36 weeks)
+- Urinalysis: Negative for protein, glucose, leukocytes
+- Blood type: O positive, antibody screen negative
+- Rh status: Positive
+
+===============================================================================
+ASSESSMENT & PLAN:
+===============================================================================
+1. UNCOMPLICATED SINGLETON PREGNANCY — 32 weeks, appropriate fetal growth
+2. MILD IRON-DEFICIENCY ANEMIA — Continue iron supplementation, recheck Hgb
+   at 36 weeks
+3. PHYSIOLOGIC EDEMA — Reassurance, elevation, compression stockings
+4. Continue current prenatal vitamin regimen
+
+ANTICIPATORY GUIDANCE:
+- Reviewed signs of preterm labor and when to call or go to L&D
+- Discussed birth plan preferences; patient desires natural delivery if
+  possible
+- Tdap vaccine administered today (right deltoid, Lot #TD-78432)
+- Reviewed breastfeeding education materials
+
+===============================================================================
+FOLLOW-UP:
+===============================================================================
+- Next prenatal visit: 06/26/2024 (34 weeks) with Dr. James Martinez
+- GBS culture collection: 07/10/2024 (36 weeks)
+- Weekly NST to begin at 36 weeks
+- Growth ultrasound at 36 weeks
+- Anesthesia consult if epidural desired: schedule at next visit
+
+===============================================================================
+ELECTRONICALLY SIGNED: Dr. James Martinez, MD, FACOG
+DATE: 06/12/2024 11:20 EST
+Miami General Hospital — Department of Obstetrics & Gynecology
+===============================================================================

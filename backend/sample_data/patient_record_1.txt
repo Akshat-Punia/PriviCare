@@ -1,0 +1,119 @@
+===============================================================================
+                        SPRINGFIELD GENERAL HOSPITAL
+                        DEPARTMENT OF CARDIOLOGY
+                        ADMISSION NOTE
+===============================================================================
+
+DATE OF ADMISSION: 01/15/2024
+ATTENDING PHYSICIAN: Dr. Sarah Johnson, MD, FACC
+PATIENT NAME: John Michael Smith
+DATE OF BIRTH: 03/15/1978
+AGE: 45 years
+SEX: Male
+SSN: 123-45-6789
+PHONE: (555) 234-5678
+ADDRESS: 142 Oak Street, Springfield, IL 62704
+MEDICAL RECORD #: SGH-2024-04851
+
+===============================================================================
+CHIEF COMPLAINT:
+===============================================================================
+Patient presents with persistent chest tightness, shortness of breath on
+exertion, and elevated blood pressure readings at home over the past two weeks.
+Mr. Smith reports episodic dizziness and fatigue, particularly in the late
+afternoon. He was referred by his primary care physician for urgent cardiac
+evaluation.
+
+===============================================================================
+HISTORY OF PRESENT ILLNESS:
+===============================================================================
+Mr. John Michael Smith is a 45-year-old male with a known history of
+hypertension (diagnosed 2019) and type 2 diabetes mellitus (diagnosed 2021).
+The patient reports that over the past 14 days, he has experienced worsening
+chest discomfort described as a "squeezing pressure" across the substernal
+area, rated 5/10 in severity. Symptoms are exacerbated by physical activity
+such as climbing stairs and relieved with rest. He denies any radiation to the
+arm or jaw. He also reports intermittent palpitations occurring 2-3 times
+daily, lasting approximately 30 seconds each episode.
+
+===============================================================================
+PAST MEDICAL HISTORY:
+===============================================================================
+1. Essential hypertension — diagnosed 2019
+2. Type 2 diabetes mellitus — diagnosed 2021, managed with oral medications
+3. Hyperlipidemia — diagnosed 2022
+4. Mild obesity (BMI 31.2)
+
+SURGICAL HISTORY: Appendectomy (2005)
+
+FAMILY HISTORY: Father deceased at age 62 from myocardial infarction. Mother
+alive, age 72, with hypertension. Wife Maria Smith reports no significant
+family cardiac history on maternal side.
+
+SOCIAL HISTORY: Non-smoker. Occasional alcohol use (1-2 drinks/week). Works
+as an accountant. Married to Maria Smith with two children.
+
+===============================================================================
+CURRENT MEDICATIONS:
+===============================================================================
+1. Lisinopril 20 mg PO daily
+2. Metformin 1000 mg PO twice daily
+3. Atorvastatin 40 mg PO at bedtime
+4. Aspirin 81 mg PO daily
+5. Amlodipine 5 mg PO daily
+
+===============================================================================
+PHYSICAL EXAMINATION:
+===============================================================================
+VITALS: BP 158/96 mmHg, HR 88 bpm, RR 18, Temp 98.4°F, SpO2 97% on RA
+GENERAL: Alert, oriented, mild distress
+CARDIAC: Regular rate and rhythm, S1/S2 normal, grade II/VI systolic murmur
+         at the apex
+LUNGS: Clear to auscultation bilaterally
+EXTREMITIES: No peripheral edema, pulses 2+ bilaterally
+
+===============================================================================
+LABORATORY RESULTS (01/15/2024):
+===============================================================================
+- HbA1c: 7.8% (target <7.0%)
+- Fasting glucose: 156 mg/dL
+- Total cholesterol: 234 mg/dL
+- LDL: 142 mg/dL
+- HDL: 38 mg/dL
+- Triglycerides: 198 mg/dL
+- Troponin I: 0.02 ng/mL (normal <0.04)
+- BNP: 180 pg/mL
+- Creatinine: 1.1 mg/dL
+- eGFR: 78 mL/min
+
+===============================================================================
+DIAGNOSTIC STUDIES:
+===============================================================================
+ECG: Normal sinus rhythm, left ventricular hypertrophy by voltage criteria
+ECHO (01/16/2024): LVEF 52%, mild left ventricular hypertrophy, Grade I
+diastolic dysfunction, no significant valvular abnormalities
+
+===============================================================================
+ASSESSMENT & PLAN:
+===============================================================================
+1. HYPERTENSION — Poorly controlled. Increase Lisinopril to 40 mg daily.
+   Continue Amlodipine 5 mg. Target BP <130/80 mmHg.
+2. TYPE 2 DIABETES — Suboptimal control. Add Empagliflozin 10 mg daily for
+   cardiovascular benefit. Continue Metformin. Referral to endocrinology.
+3. HYPERLIPIDEMIA — Not at goal. Increase Atorvastatin to 80 mg nightly.
+4. CARDIAC EVALUATION — Stress test scheduled for 01/22/2024. Consider
+   coronary CT angiography if stress test is inconclusive.
+
+===============================================================================
+FOLLOW-UP:
+===============================================================================
+- Cardiology follow-up with Dr. Sarah Johnson on 02/05/2024
+- Lab work (lipid panel, HbA1c, CMP) on 01/29/2024
+- Blood pressure log review in 2 weeks
+- Patient educated on dietary modifications (DASH diet) and exercise program
+
+===============================================================================
+ELECTRONICALLY SIGNED: Dr. Sarah Johnson, MD, FACC
+DATE: 01/15/2024 18:42 EST
+Springfield General Hospital — Cardiology Department
+===============================================================================

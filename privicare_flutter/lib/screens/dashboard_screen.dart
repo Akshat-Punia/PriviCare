@@ -4,6 +4,7 @@ import 'camera_scanner_screen.dart';
 import 'voice_dictation_screen.dart';
 import 'patient_search_screen.dart';
 import 'clinical_copilot_screen.dart';
+import 'patient_portal_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -54,6 +55,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ],
         ),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.person_pin_circle_outlined, color: Color(0xFF0D9488)),
+            tooltip: 'Patient Portal',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const PatientPortalScreen()),
+              );
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.search, color: Color(0xFF2563EB)),
             tooltip: 'Search Patients',
