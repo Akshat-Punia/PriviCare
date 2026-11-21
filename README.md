@@ -24,6 +24,7 @@
 ## 📋 Table of Contents
 
 - [Overview](#-overview)
+- [HackBriven × Serverpod Track 2: Superpowers in Your Pocket](#-hackbriven--serverpod-track-2-superpowers-in-your-pocket)
 - [How It Works: Doctor Clinical Journey](#-how-it-works-doctor-clinical-journey)
 - [Local Machine Execution (HDD/SSD, No Chrome)](#-local-machine-execution-hddssd-no-chrome)
 - [Patient Chat History Review for Doctors](#-patient-chat-history-review-for-doctors)
@@ -43,6 +44,46 @@
 2. **Review Patient-AI Chat Interactions**: Review questions patients previously asked the AI, monitor symptom triage alerts (`URGENT_ATTENTION`, `EVALUATE_MEDICATION`), and append clinician notes.
 3. **Engage Doctor Clinical AI Co-Pilot**: Conduct clinical queries grounded in the patient's records using local RAG, with authorized clinician re-identification backed by AES-256 GCM cryptographic vaulting.
 4. **100% Local Machine Execution**: Runs directly from the user's SSD/HDD in a native Windows desktop window (via Edge WebView2) without relying on Google Chrome.
+
+---
+
+## 📱 HackBriven × Serverpod Track 2: Superpowers in Your Pocket
+
+PriviCare features a native **Flutter + Dart + Serverpod 4** stack designed specifically for **HackBriven Track 2**:
+
+```
+┌────────────────────────────────────────────────────────┐
+│             FLUTTER MOBILE APP (Track 2)               │
+│  📸 Camera Hardware Scanner    🎙️ Microphone Dictation │
+│  (Paper Prescriptions/Reports) (Gnani Voice Platform)  │
+└───────────────────────────┬────────────────────────────┘
+                            │
+              Client Requests via Serverpod
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│            SERVERPOD 4 BACKEND (Cloud Ready)           │
+│  • Pure Dart HIPAA Safe Harbor & India DPDP Scrubber   │
+│  • Verhoeff Checksum Engine (12-digit Aadhaar)         │
+│  • AES-256 GCM Cryptographic PII Vault                 │
+│  • Automated Clinical Triage Tagging                   │
+│  • DPDP Act Section 12 Cryptographic Erasure           │
+└────────────────────────────────────────────────────────┘
+```
+
+### 1. Phone Hardware Sense 1: Camera Document Scanner
+- Point phone camera at physical prescriptions, discharge notes, and printed lab reports.
+- Extracts clinical text and transmits to Serverpod for dual-compliance scrubbing (Aadhaar, 14-digit ABHA, PAN, names, contact numbers).
+- Live visual comparison (Original Scanned Text vs. Zero-Leakage Scrubbed Output).
+
+### 2. Phone Hardware Sense 2: Microphone Clinical Dictation (Gnani Voice Platform)
+- Clinicians speak observations during hospital rounds hands-free.
+- Real-time streaming transcription with automated PII masking.
+- Automated clinical triage tagging (`URGENT_ATTENTION`, `EVALUATE_MEDICATION`, `ROUTINE`).
+
+### 3. Serverpod 4 Multi-Package Architecture
+- **`privicare_server/`**: Native Serverpod 4 cloud backend with endpoints (`ClinicalEndpoint`, `AnonymizationEndpoint`, `VoiceNoteEndpoint`, `ChatEndpoint`).
+- **`privicare_client/`**: Strongly-typed client protocol library.
+- **`privicare_flutter/`**: Cross-platform Flutter mobile client for Android/iOS with hardware sensor integrations.
 
 ---
 

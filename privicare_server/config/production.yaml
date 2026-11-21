@@ -1,0 +1,18 @@
+# PriviCare Serverpod Configuration (Serverpod Cloud Production)
+apiServer:
+  port: 8080
+  publicHost: api.privicare.serverpod.cloud
+  publicPort: 443
+  publicScheme: https
+
+insightsServer:
+  port: 8081
+  publicHost: insights.privicare.serverpod.cloud
+  publicPort: 443
+  publicScheme: https
+
+webServer:
+  port: 8082
+  publicHost: app.privicare.serverpod.cloud
+  publicPort: 443
+  publicScheme: https

@@ -1,0 +1,27 @@
+name: privicare_flutter
+description: PriviCare Flutter Mobile App — HackBriven Track 2 Superpowers in Your Pocket
+version: 2.0.0+1
+publish_to: none
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.19.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  privicare_client:
+    path: ../privicare_client
+  camera: ^0.11.0+1
+  google_fonts: ^6.2.1
+  intl: ^0.19.0
+  flutter_animate: ^4.5.0
+  http: ^1.2.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true

@@ -1,0 +1,17 @@
+name: privicare_server
+description: PriviCare Serverpod 4 Backend — Privacy-Preserving Clinical Intelligence & PII Anonymization Suite
+version: 2.0.0
+publish_to: none
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  serverpod: ^2.4.0
+  crypto: ^3.0.3
+  encrypt: ^5.0.3
+  http: ^1.2.0
+
+dev_dependencies:
+  test: ^1.24.0
+  lints: ^3.0.0
