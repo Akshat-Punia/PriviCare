@@ -85,44 +85,100 @@ def create_patient(req: AddPatientRequest) -> Dict[str, Any]:
 
 @router.post("/validate-identity")
 def validate_identity(req: ValidateIdentityRequest) -> Dict[str, Any]:
-    """Validate Aadhaar with Verhoeff D5 dihedral algorithm or ABDM ABHA ID."""
-    from anonymization.presidio_engine import validate_verhoeff
+    """Validate Aadhaar with Verhoeff D5 dihedral algorithm, ABDM ABHA ID, Phone or UHID."""
+    from anonymization.presidio_engine import validate_verhoeff, generate_verhoeff_checksum
     import re
+    import random
 
     val = req.value.strip()
     if req.type == "aadhaar":
         cleaned = re.sub(r"[\s-]", "", val)
-        if len(cleaned) != 12 or not cleaned.isdigit():
+        if not cleaned:
+            return {
+                "valid": False,
+                "reason": "Enter a 12-digit Aadhaar number.",
+                "algorithm": "Verhoeff D5 Dihedral Group"
+            }
+        if len(cleaned) < 12:
+            return {
+                "valid": False,
+                "reason": f"Incomplete Aadhaar ({len(cleaned)}/12 digits).",
+                "algorithm": "Verhoeff D5 Dihedral Group"
+            }
+        if len(cleaned) > 12 or not cleaned.isdigit():
             return {
                 "valid": False,
                 "reason": "Aadhaar must be exactly 12 numeric digits.",
-                "algorithm": "Verhoeff D5 Checksum"
+                "algorithm": "Verhoeff D5 Dihedral Group"
+            }
+        if cleaned[0] in ("0", "1"):
+            return {
+                "valid": False,
+                "reason": "UIDAI Standard: Aadhaar numbers never start with 0 or 1.",
+                "algorithm": "UIDAI National Registry Rule"
             }
         is_valid = validate_verhoeff(cleaned)
+        correct_check = generate_verhoeff_checksum(cleaned[:11]) if len(cleaned) == 12 else None
         return {
             "valid": is_valid,
-            "reason": "Valid Aadhaar checksum (Verhoeff D5 verified)" if is_valid else "Invalid Verhoeff checksum digit.",
-            "algorithm": "Verhoeff D5 Dihedral Group",
-            "formatted": f"{cleaned[:4]} {cleaned[4:8]} {cleaned[8:]}"
+            "reason": "Valid Aadhaar (Verhoeff D5 Checksum Match)" if is_valid else f"Invalid checksum. Expected last digit: {correct_check}",
+            "algorithm": "Verhoeff D5 Dihedral Group (UIDAI Standard)",
+            "formatted": f"{cleaned[:4]} {cleaned[4:8]} {cleaned[8:]}",
+            "expected_check_digit": correct_check
         }
     elif req.type == "abha":
         cleaned = re.sub(r"[\s-]", "", val)
+        if not val:
+            return {"valid": False, "reason": "Enter a 14-digit ABHA or username@abdm."}
         if "@" in val:
             is_valid = bool(re.match(r"^[a-zA-Z0-9._]+@abdm$", val, re.IGNORECASE))
             return {
                 "valid": is_valid,
                 "reason": "Valid ABDM ABHA address format (@abdm)" if is_valid else "ABHA address must match format username@abdm.",
-                "algorithm": "National Health Authority (NHA) ABDM Schema"
+                "algorithm": "National Health Authority (NHA) ABDM Schema",
+                "formatted": val.lower()
             }
         else:
             is_valid = len(cleaned) == 14 and cleaned.isdigit()
             formatted = f"{cleaned[:2]}-{cleaned[2:6]}-{cleaned[6:10]}-{cleaned[10:14]}" if len(cleaned) == 14 else val
             return {
                 "valid": is_valid,
-                "reason": "Valid 14-digit ABDM Health ID" if is_valid else "14-digit ABHA number must have format XX-XXXX-XXXX-XXXX.",
-                "algorithm": "ABDM 14-Digit Health ID",
+                "reason": "Valid 14-digit ABDM Health ID" if is_valid else f"Incomplete ABHA ({len(cleaned)}/14 digits). Format: XX-XXXX-XXXX-XXXX.",
+                "algorithm": "ABDM 14-Digit Health ID (NHA)",
                 "formatted": formatted
             }
+    elif req.type == "phone":
+        cleaned = re.sub(r"[\s\-\+\(\)]", "", val)
+        if cleaned.startswith("91") and len(cleaned) == 12:
+            cleaned = cleaned[2:]
+        elif cleaned.startswith("0") and len(cleaned) == 11:
+            cleaned = cleaned[1:]
+        is_valid = len(cleaned) == 10 and cleaned.isdigit() and cleaned[0] in "6789"
+        formatted = f"+91 {cleaned[:5]} {cleaned[5:]}" if len(cleaned) == 10 else val
+        return {
+            "valid": is_valid,
+            "reason": "Valid Indian Mobile (+91 TRAI/DoT compliant)" if is_valid else "Enter a valid 10-digit Indian mobile (starts with 6, 7, 8, or 9).",
+            "algorithm": "TRAI / DoT National Numbering Plan (NNP)",
+            "formatted": formatted
+        }
+    elif req.type == "uhid":
+        cleaned = val.strip().upper()
+        if not cleaned:
+            suggested = f"UHID-{random.randint(100000, 999999)}"
+            return {
+                "valid": True,
+                "reason": f"Auto-generated: {suggested}",
+                "generated": suggested,
+                "algorithm": "Hospital Master Index Standard (ISO 27527)",
+                "formatted": suggested
+            }
+        is_valid = bool(re.match(r"^UHID-\d{6}$", cleaned))
+        return {
+            "valid": is_valid,
+            "reason": "Valid Hospital UHID Format (UHID-XXXXXX)" if is_valid else "UHID must follow format UHID-XXXXXX (6 numeric digits).",
+            "algorithm": "Hospital Master Index Standard",
+            "formatted": cleaned
+        }
     return {"valid": False, "reason": f"Unknown identity type: {req.type}"}
 
 
