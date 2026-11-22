@@ -94,15 +94,19 @@ def get_app_html() -> str:
         PriviCare is designed to prevent detected PHI and PII from entering vector storage or external model requests, with leakage testing, auditability and fail-closed processing.
       </div>
 
-      <!-- Mode Selector Tabs: Sign In / Create Account -->
+      <!-- Mode Selector Tabs: Doctor Sign In / User Sign In / Create Account -->
       <div class="flex border-b border-slate-200 dark:border-slate-800 mb-5">
         <button type="button" id="tab-login-signin" onclick="switchLoginMode('signin')"
           class="flex-1 py-2 text-center text-xs font-bold border-b-2 border-blue-600 text-blue-600 transition-colors">
-          <i class="fa-solid fa-right-to-bracket mr-1"></i> Sign In
+          <i class="fa-solid fa-user-doctor mr-1"></i> Doctor
+        </button>
+        <button type="button" id="tab-login-user" onclick="switchLoginMode('user')"
+          class="flex-1 py-2 text-center text-xs font-semibold text-slate-500 hover:text-teal-600 dark:text-slate-400 dark:hover:text-teal-400 transition-colors">
+          <i class="fa-solid fa-hospital-user mr-1"></i> User Sign In
         </button>
         <button type="button" id="tab-login-register" onclick="switchLoginMode('register')"
           class="flex-1 py-2 text-center text-xs font-semibold text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors">
-          <i class="fa-solid fa-user-plus mr-1"></i> Create Doctor Account
+          <i class="fa-solid fa-user-plus mr-1"></i> Doctor Reg
         </button>
       </div>
 
@@ -265,6 +269,61 @@ def get_app_html() -> str:
         </div>
       </form>
 
+      <!-- FORM 3: USER / PATIENT SIGN IN -->
+      <form id="user-login-form" onsubmit="handleUserLogin(event); return false;" class="hidden space-y-3.5">
+        <div class="p-3 rounded-xl bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-900/60 text-xs text-teal-900 dark:text-teal-200 leading-relaxed">
+          <div class="font-semibold flex items-center gap-1.5 mb-1 text-teal-800 dark:text-teal-300">
+            <i class="fa-solid fa-shield-halved"></i> ABDM & India DPDP Act Verified Portal
+          </div>
+          Access your digital health card, medical records vault, recovery AI co-pilot, and manage hospital data consents.
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
+            <i class="fa-solid fa-id-card mr-1"></i> ABHA 14-Digit ID / Mobile / UHID
+          </label>
+          <input type="text" id="login-user-identifier" required value="14-2354-9871-6542"
+            class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:ring-2 focus:ring-teal-500 outline-none font-mono">
+          <p class="text-[10px] text-slate-500 mt-1">Use registered ABHA ID (14-digit or @abdm), Mobile (+91), or Hospital UHID</p>
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
+            <i class="fa-solid fa-key mr-1"></i> Personal Passcode / Zero-Knowledge PIN
+          </label>
+          <input type="password" id="login-user-passcode" value="123456"
+            class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:ring-2 focus:ring-teal-500 outline-none font-mono">
+        </div>
+
+        <button type="button" onclick="handleUserLogin(event)"
+          class="w-full py-3 px-4 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white font-semibold rounded-xl text-sm shadow-md transition-all flex items-center justify-center gap-2">
+          <i class="fa-solid fa-shield-halved"></i> Access My User Dashboard
+        </button>
+
+        <!-- 1-Click Demo User Profiles -->
+        <div class="pt-3 border-t border-slate-200 dark:border-slate-800">
+          <p class="text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-2 text-center">
+            Instant 1-Click Demo Profiles:
+          </p>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <button type="button" onclick="quickLoginUser('UHID-982143')"
+              class="p-2.5 text-left rounded-xl border border-teal-200 dark:border-teal-900/60 bg-teal-50/70 dark:bg-teal-950/40 hover:bg-teal-100 transition-colors">
+              <div class="font-bold text-teal-800 dark:text-teal-200 flex items-center gap-1">
+                <i class="fa-solid fa-user-check text-[10px]"></i> Rajesh Sharma
+              </div>
+              <div class="text-[10px] text-slate-500 font-mono mt-0.5">Cardiology • ABHA</div>
+            </button>
+            <button type="button" onclick="quickLoginUser('UHID-447219')"
+              class="p-2.5 text-left rounded-xl border border-teal-200 dark:border-teal-900/60 bg-teal-50/70 dark:bg-teal-950/40 hover:bg-teal-100 transition-colors">
+              <div class="font-bold text-teal-800 dark:text-teal-200 flex items-center gap-1">
+                <i class="fa-solid fa-user-check text-[10px]"></i> Priya Patel
+              </div>
+              <div class="text-[10px] text-slate-500 font-mono mt-0.5">Neurology • ABHA</div>
+            </button>
+          </div>
+        </div>
+      </form>
+
       <!-- Quick Sign-In Buttons -->
       <div class="mt-5 pt-4 border-t border-slate-200 dark:border-slate-800">
         <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400 mb-2 text-center">
@@ -352,15 +411,15 @@ def get_app_html() -> str:
           <i class="fa-solid fa-chart-line text-blue-600"></i> Benchmarks
         </button>
 
-        <!-- Portal Role Mode Switcher (Doctor vs Patient) -->
+        <!-- Portal Role Mode Switcher (Doctor Suite vs User Dashboard) -->
         <div class="flex items-center p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700">
           <button id="role-btn-doctor" onclick="switchPortalRole('doctor')"
             class="px-3 py-1 rounded-lg text-xs font-bold transition-all bg-blue-600 text-white shadow-sm flex items-center gap-1.5">
-            <i class="fa-solid fa-user-doctor"></i> Doctor Portal
+            <i class="fa-solid fa-user-doctor"></i> Doctor Suite
           </button>
           <button id="role-btn-patient" onclick="switchPortalRole('patient')"
             class="px-3 py-1 rounded-lg text-xs font-bold transition-all text-slate-600 dark:text-slate-300 hover:text-teal-600 dark:hover:text-teal-400 flex items-center gap-1.5">
-            <i class="fa-solid fa-hospital-user"></i> Patient Portal
+            <i class="fa-solid fa-house-chimney-user"></i> User Dashboard
           </button>
         </div>
 
@@ -417,21 +476,25 @@ def get_app_html() -> str:
     <!-- Main Workspace Navigation Tabs: PATIENT MODE -->
     <div id="workspace-patient-nav" class="hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-6 py-2.5 flex flex-wrap items-center justify-between gap-3">
       <div class="flex items-center gap-2 flex-wrap">
-        <button id="pnav-meds" onclick="switchPatientSubtab('meds')"
+        <button id="pnav-overview" onclick="switchPatientSubtab('overview')"
           class="px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 bg-teal-600 text-white shadow-sm">
-          <i class="fa-solid fa-pills"></i> 1. My Prescriptions & Care Plan
+          <i class="fa-solid fa-house-chimney-medical"></i> 1. Health Card & Overview
+        </button>
+        <button id="pnav-meds" onclick="switchPatientSubtab('meds')"
+          class="px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
+          <i class="fa-solid fa-pills"></i> 2. Prescriptions & Schedule
         </button>
         <button id="pnav-vault" onclick="switchPatientSubtab('vault')"
           class="px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
-          <i class="fa-solid fa-folder-open"></i> 2. My Medical Reports (Vault)
+          <i class="fa-solid fa-folder-open"></i> 3. Medical Records Vault
         </button>
         <button id="pnav-chat" onclick="switchPatientSubtab('chat')"
           class="px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
-          <i class="fa-solid fa-comment-medical"></i> 3. Ask Recovery AI Assistant
+          <i class="fa-solid fa-comment-medical"></i> 4. Recovery AI Assistant
         </button>
         <button id="pnav-dpdp" onclick="switchPatientSubtab('dpdp')"
           class="px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
-          <i class="fa-solid fa-shield-halved"></i> 4. My Privacy & DPDP Rights
+          <i class="fa-solid fa-shield-halved"></i> 5. DPDP Privacy & Consents
         </button>
       </div>
 
@@ -754,8 +817,246 @@ def get_app_html() -> str:
         </div>
       </div>
 
+      <!-- SUBVIEW 0: USER DASHBOARD OVERVIEW & DIGITAL HEALTH CARD -->
+      <div id="patient-subview-overview" class="space-y-6">
+        <!-- 4 Metric Cards -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="glass-card rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-slate-500">Zero-Leak Privacy</span>
+              <div class="w-8 h-8 rounded-xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 flex items-center justify-center">
+                <i class="fa-solid fa-shield-check"></i>
+              </div>
+            </div>
+            <div class="mt-3">
+              <div class="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400">100%</div>
+              <p class="text-[11px] text-slate-500 mt-0.5">LanceDB vector vault safe</p>
+            </div>
+          </div>
+
+          <div class="glass-card rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-slate-500">Active Prescriptions</span>
+              <div class="w-8 h-8 rounded-xl bg-blue-100 dark:bg-blue-950/60 text-blue-600 flex items-center justify-center">
+                <i class="fa-solid fa-pills"></i>
+              </div>
+            </div>
+            <div class="mt-3">
+              <div class="text-2xl font-extrabold text-slate-900 dark:text-slate-100" id="user-dash-rx-count">4 Regimens</div>
+              <p class="text-[11px] text-slate-500 mt-0.5">Penicillin allergy protected</p>
+            </div>
+          </div>
+
+          <div class="glass-card rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-slate-500">Stored Medical Reports</span>
+              <div class="w-8 h-8 rounded-xl bg-purple-100 dark:bg-purple-950/60 text-purple-600 flex items-center justify-center">
+                <i class="fa-solid fa-folder-open"></i>
+              </div>
+            </div>
+            <div class="mt-3">
+              <div class="text-2xl font-extrabold text-slate-900 dark:text-slate-100" id="user-dash-reports-count">2 Records</div>
+              <p class="text-[11px] text-slate-500 mt-0.5">On-device encrypted</p>
+            </div>
+          </div>
+
+          <div class="glass-card rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-slate-500">Hospital Consents</span>
+              <div class="w-8 h-8 rounded-xl bg-teal-100 dark:bg-teal-950/60 text-teal-600 flex items-center justify-center">
+                <i class="fa-solid fa-hospital-user"></i>
+              </div>
+            </div>
+            <div class="mt-3">
+              <div class="text-2xl font-extrabold text-slate-900 dark:text-slate-100" id="user-dash-consent-count">2 Active</div>
+              <p class="text-[11px] text-slate-500 mt-0.5">DPDP Section 6 compliant</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Digital ABHA Health ID Card -->
+          <div class="relative overflow-hidden rounded-2xl p-6 bg-gradient-to-br from-teal-700 via-teal-800 to-slate-900 text-white shadow-xl border border-teal-600/30">
+            <div class="flex items-center justify-between pb-4 border-b border-white/10">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-lg bg-white/20 backdrop-blur-md flex items-center justify-center font-bold">
+                  <i class="fa-solid fa-shield-halved text-white text-sm"></i>
+                </div>
+                <div>
+                  <div class="text-xs font-bold tracking-wider uppercase text-teal-200">Ayushman Bharat (ABDM)</div>
+                  <div class="text-[10px] text-teal-300">National Health Authority • Digital Health ID</div>
+                </div>
+              </div>
+              <span class="px-2 py-0.5 rounded bg-emerald-500/30 text-emerald-300 text-[10px] font-semibold border border-emerald-400/30">
+                ACTIVE
+              </span>
+            </div>
+
+            <div class="my-5 space-y-3">
+              <div>
+                <div class="text-[10px] uppercase tracking-wider text-teal-300 font-medium">ABHA Number (14-Digit)</div>
+                <div class="text-xl font-mono font-bold tracking-widest text-white" id="card-abha-id">
+                  14-2354-9871-6542
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between pt-1">
+                <div>
+                  <div class="text-[10px] uppercase text-teal-300 font-medium">Full Name</div>
+                  <div class="font-semibold text-sm text-white" id="card-user-name">Rajesh Sharma</div>
+                </div>
+                <div class="text-right">
+                  <div class="text-[10px] uppercase text-teal-300 font-medium">ABHA Address</div>
+                  <div class="font-mono text-xs text-white" id="card-abha-address">rajesh.sharma@abdm</div>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between pt-2 border-t border-white/10 text-xs">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span class="text-[11px] text-teal-100 font-medium">Verhoeff D5 Checksum Validated</span>
+                </div>
+                <span class="px-2 py-0.5 rounded bg-white/15 text-[10px] font-mono" id="card-blood-group">Blood: O+</span>
+              </div>
+            </div>
+
+            <div class="pt-3 border-t border-white/10 flex items-center justify-between text-[11px] text-teal-200">
+              <span>UHID: <strong class="font-mono text-white" id="card-uhid">UHID-982143</strong></span>
+              <span>Hospital: <strong class="text-white">Fortis Escorts</strong></span>
+            </div>
+          </div>
+
+          <!-- Quick Action & Daily Adherence -->
+          <div class="lg:col-span-2 glass-card rounded-2xl p-6 border border-slate-200 dark:border-slate-800 space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
+              <div>
+                <h3 class="font-bold text-sm text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                  <i class="fa-solid fa-calendar-check text-teal-600"></i> Daily Medication Adherence Checklist
+                </h3>
+                <p class="text-[11px] text-slate-500">Tick off prescribed doses taken today</p>
+              </div>
+              <span class="text-xs px-2.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-semibold">
+                100% Adherence
+              </span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="user-dash-rx-checklist">
+              <div class="p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/40 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                  <input type="checkbox" checked class="w-4 h-4 text-teal-600 rounded">
+                  <div>
+                    <div class="font-bold text-xs text-slate-900 dark:text-slate-100">Atorvastatin 40mg</div>
+                    <div class="text-[10px] text-slate-500">Night (Bedtime)</div>
+                  </div>
+                </div>
+                <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-950 px-2 py-0.5 rounded">Taken</span>
+              </div>
+
+              <div class="p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/40 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                  <input type="checkbox" checked class="w-4 h-4 text-teal-600 rounded">
+                  <div>
+                    <div class="font-bold text-xs text-slate-900 dark:text-slate-100">Aspirin 75mg (EC)</div>
+                    <div class="text-[10px] text-slate-500">Post-Breakfast</div>
+                  </div>
+                </div>
+                <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-950 px-2 py-0.5 rounded">Taken</span>
+              </div>
+
+              <div class="p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/40 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                  <input type="checkbox" checked class="w-4 h-4 text-teal-600 rounded">
+                  <div>
+                    <div class="font-bold text-xs text-slate-900 dark:text-slate-100">Telmisartan 40mg</div>
+                    <div class="text-[10px] text-slate-500">Morning (09:00 AM)</div>
+                  </div>
+                </div>
+                <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-950 px-2 py-0.5 rounded">Taken</span>
+              </div>
+
+              <div class="p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/40 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                  <input type="checkbox" class="w-4 h-4 text-teal-600 rounded">
+                  <div>
+                    <div class="font-bold text-xs text-slate-900 dark:text-slate-100">Metoprolol 25mg</div>
+                    <div class="text-[10px] text-slate-500">Post-Dinner</div>
+                  </div>
+                </div>
+                <span class="text-[10px] font-bold text-amber-600 bg-amber-50 dark:bg-amber-950 px-2 py-0.5 rounded">Scheduled</span>
+              </div>
+            </div>
+
+            <!-- Quick Action Buttons -->
+            <div class="pt-3 border-t border-slate-200 dark:border-slate-800 flex items-center gap-2 flex-wrap text-xs">
+              <button onclick="switchPatientSubtab('vault')"
+                class="px-3 py-2 rounded-xl bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-800 text-teal-800 dark:text-teal-200 font-semibold flex items-center gap-1.5 hover:bg-teal-100">
+                <i class="fa-solid fa-folder-open text-teal-600"></i> Open Records Vault
+              </button>
+              <button onclick="switchPatientSubtab('chat')"
+                class="px-3 py-2 rounded-xl bg-cyan-50 dark:bg-cyan-950/40 border border-cyan-200 dark:border-cyan-800 text-cyan-800 dark:text-cyan-200 font-semibold flex items-center gap-1.5 hover:bg-cyan-100">
+                <i class="fa-solid fa-comment-medical text-cyan-600"></i> Ask Recovery AI
+              </button>
+              <button onclick="switchPatientSubtab('dpdp')"
+                class="px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold flex items-center gap-1.5 hover:bg-slate-200">
+                <i class="fa-solid fa-lock text-slate-500"></i> Manage Consents
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Real-Time Access Transparency Logs -->
+        <div class="glass-card rounded-2xl p-6 border border-slate-200 dark:border-slate-800 space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
+            <div>
+              <h3 class="font-bold text-sm text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                <i class="fa-solid fa-clock-rotate-left text-blue-600"></i> Who Accessed My Medical Records
+              </h3>
+              <p class="text-[11px] text-slate-500">India DPDP Act 2023 access transparency audit log</p>
+            </div>
+            <span class="text-xs px-2.5 py-1 rounded-full bg-teal-100 dark:bg-teal-950 text-teal-800 dark:text-teal-300 font-semibold">
+              Zero PII Leakage
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 space-y-1">
+              <div class="flex items-center justify-between font-bold text-slate-900 dark:text-slate-100">
+                <span>Dr. Sarah Johnson</span>
+                <span class="text-[10px] text-slate-400 font-normal">Yesterday, 06:30 PM</span>
+              </div>
+              <div class="text-slate-500">Treatment & Coronary Follow-up Review</div>
+              <div class="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-1 pt-1">
+                <i class="fa-solid fa-circle-check"></i> Re-identified under Doctor License
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 space-y-1">
+              <div class="flex items-center justify-between font-bold text-slate-900 dark:text-slate-100">
+                <span>PriviCare Clinical AI Guard</span>
+                <span class="text-[10px] text-slate-400 font-normal">20 Nov, 09:15 AM</span>
+              </div>
+              <div class="text-slate-500">Drug-Allergy Interaction Check (Penicillin)</div>
+              <div class="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-1 pt-1">
+                <i class="fa-solid fa-circle-check"></i> Zero PHI Leak Detected
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 space-y-1">
+              <div class="flex items-center justify-between font-bold text-slate-900 dark:text-slate-100">
+                <span>ABDM Gateway</span>
+                <span class="text-[10px] text-slate-400 font-normal">19 Nov, 02:22 PM</span>
+              </div>
+              <div class="text-slate-500">ABHA Health Locker Verification</div>
+              <div class="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-1 pt-1">
+                <i class="fa-solid fa-circle-check"></i> Verhoeff D5 Checksum Validated
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- SUBVIEW 1: MEDICATIONS & CARE PLAN -->
-      <div id="patient-subview-meds" class="space-y-6">
+      <div id="patient-subview-meds" class="hidden space-y-6">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
           <!-- Current Prescriptions & Daily Schedule -->
@@ -1852,25 +2153,68 @@ Scanning vector storage...
     let cachedPatients = {};
 
     // -------------------------------------------------------------------------
-    // Doctor Authentication & Mode Switching
+    // Doctor & User Authentication & Mode Switching
     // -------------------------------------------------------------------------
     function switchLoginMode(mode) {
       const formSignIn = document.getElementById("doctor-login-form");
       const formRegister = document.getElementById("doctor-register-form");
+      const formUser = document.getElementById("user-login-form");
       const tabSignIn = document.getElementById("tab-login-signin");
       const tabRegister = document.getElementById("tab-login-register");
+      const tabUser = document.getElementById("tab-login-user");
+
+      if (formSignIn) formSignIn.classList.add("hidden");
+      if (formRegister) formRegister.classList.add("hidden");
+      if (formUser) formUser.classList.add("hidden");
+
+      if (tabSignIn) tabSignIn.className = "flex-1 py-2 text-center text-xs font-semibold text-slate-500 hover:text-blue-600 dark:text-slate-400 transition-colors cursor-pointer";
+      if (tabRegister) tabRegister.className = "flex-1 py-2 text-center text-xs font-semibold text-slate-500 hover:text-slate-700 dark:text-slate-400 transition-colors cursor-pointer";
+      if (tabUser) tabUser.className = "flex-1 py-2 text-center text-xs font-semibold text-slate-500 hover:text-teal-600 dark:text-slate-400 transition-colors cursor-pointer";
 
       if (mode === "register") {
-        formSignIn.classList.add("hidden");
-        formRegister.classList.remove("hidden");
-        tabSignIn.className = "flex-1 py-2 text-center text-xs font-semibold text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors cursor-pointer";
-        tabRegister.className = "flex-1 py-2 text-center text-xs font-bold border-b-2 border-teal-600 text-teal-600 transition-colors cursor-pointer";
+        if (formRegister) formRegister.classList.remove("hidden");
+        if (tabRegister) tabRegister.className = "flex-1 py-2 text-center text-xs font-bold border-b-2 border-teal-600 text-teal-600 transition-colors cursor-pointer";
+      } else if (mode === "user") {
+        if (formUser) formUser.classList.remove("hidden");
+        if (tabUser) tabUser.className = "flex-1 py-2 text-center text-xs font-bold border-b-2 border-teal-600 text-teal-600 transition-colors cursor-pointer";
       } else {
-        formSignIn.classList.remove("hidden");
-        formRegister.classList.add("hidden");
-        tabSignIn.className = "flex-1 py-2 text-center text-xs font-bold border-b-2 border-blue-600 text-blue-600 transition-colors cursor-pointer";
-        tabRegister.className = "flex-1 py-2 text-center text-xs font-semibold text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors cursor-pointer";
+        if (formSignIn) formSignIn.classList.remove("hidden");
+        if (tabSignIn) tabSignIn.className = "flex-1 py-2 text-center text-xs font-bold border-b-2 border-blue-600 text-blue-600 transition-colors cursor-pointer";
       }
+    }
+
+    function handleUserLogin(e) {
+      if (e) e.preventDefault();
+      const inputEl = document.getElementById("login-user-identifier");
+      const identifier = (inputEl ? inputEl.value : "UHID-982143").trim();
+      quickLoginUser(identifier);
+    }
+
+    function quickLoginUser(identifier) {
+      let targetUhid = "UHID-982143";
+      if (identifier.includes("447219") || identifier.toLowerCase().includes("priya")) {
+        targetUhid = "UHID-447219";
+      } else if (identifier.includes("551029") || identifier.toLowerCase().includes("amit")) {
+        targetUhid = "UHID-551029";
+      } else {
+        targetUhid = "UHID-982143";
+      }
+
+      selectedUhid = targetUhid;
+      currentDoctor = {
+        name: "User / Patient Mode",
+        role: "patient",
+        doctor_id: "USER-" + targetUhid,
+        hospital_id: "HOSP_01",
+        department: "General Patient"
+      };
+
+      document.getElementById("view-login").classList.add("hidden");
+      document.getElementById("view-dashboard").classList.remove("hidden");
+
+      switchPortalRole('patient');
+      switchPatientSubtab('overview');
+      loadPatientPortalData(targetUhid);
     }
 
     function openGoogleSignInModal() {
@@ -2134,7 +2478,7 @@ Scanning vector storage...
     // Portal Role Switching (Doctor Portal <-> Patient Portal)
     // -------------------------------------------------------------------------
     let currentPortalRole = 'doctor';
-    let currentPatientSubtab = 'meds';
+    let currentPatientSubtab = 'overview';
 
     function escapeHtml(str) {
       if (!str) return "";
@@ -2186,7 +2530,7 @@ Scanning vector storage...
 
     function switchPatientSubtab(subtab) {
       currentPatientSubtab = subtab;
-      const subviews = ['meds', 'vault', 'chat', 'dpdp'];
+      const subviews = ['overview', 'meds', 'vault', 'chat', 'dpdp'];
       subviews.forEach(s => {
         const el = document.getElementById(`patient-subview-${s}`);
         const btn = document.getElementById(`pnav-${s}`);
@@ -2242,6 +2586,27 @@ Scanning vector storage...
         if (aadhaarEl) aadhaarEl.textContent = patient.aadhaar || '9823 4410 7721';
         const phoneEl = document.getElementById("patient-portal-phone");
         if (phoneEl) phoneEl.innerHTML = `<i class="fa-solid fa-phone text-slate-400 mr-0.5"></i> ${patient.phone || '+91 98765 43210'}`;
+
+        // Populate Digital Health ID Card on User Dashboard Overview
+        const cardAbha = document.getElementById("card-abha-id");
+        if (cardAbha) cardAbha.textContent = patient.abha_id || '14-2354-9871-6542';
+        const cardName = document.getElementById("card-user-name");
+        if (cardName) cardName.textContent = patient.name;
+        const cardUhid = document.getElementById("card-uhid");
+        if (cardUhid) cardUhid.textContent = patient.uhid;
+        const cardBlood = document.getElementById("card-blood-group");
+        if (cardBlood) cardBlood.textContent = `Blood: ${patient.blood_group || 'O+'}`;
+        const cardAddress = document.getElementById("card-abha-address");
+        if (cardAddress) cardAddress.textContent = `${patient.name.toLowerCase().replace(/[^a-z0-9]/g, '.')}@abdm`;
+
+        const rxCount = document.getElementById("user-dash-rx-count");
+        if (rxCount && patient.current_medications) {
+          rxCount.textContent = `${patient.current_medications.length} Regimens`;
+        }
+        const repCount = document.getElementById("user-dash-reports-count");
+        if (repCount && patient.reports) {
+          repCount.textContent = `${patient.reports.length} Records`;
+        }
 
         // Populate patient medications
         if (patient.active_medications && patient.active_medications.length > 0) {

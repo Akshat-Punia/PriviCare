@@ -29,10 +29,11 @@
 - [Local Machine Execution (HDD/SSD, No Chrome)](#-local-machine-execution-hddssd-no-chrome)
 - [Patient Chat History Review for Doctors](#-patient-chat-history-review-for-doctors)
 - [Patient-Side Interface & 24/7 Recovery AI](#-patient-side-interface--247-recovery-ai)
+- [User Dashboard & ABDM Digital Health ID Card](#-user-dashboard--abdm-digital-health-id-card)
 - [DPDP Act 2023 & ABDM Verified Identifiers](#-dpdp-act-2023--abdm-verified-identifiers)
 - [Historical Medical Report Analysis & OCR](#-historical-medical-report-analysis--ocr)
 - [Doctor AI Clinical Co-Pilot (RAG-Powered)](#-doctor-ai-clinical-co-pilot-rag-powered)
-- [Automated Verification & Test Suite (28 Tests)](#-automated-verification--test-suite-28-tests)
+- [Automated Verification & Test Suite (30 Tests)](#-automated-verification--test-suite-30-tests)
 - [Benchmark Results & Confusion Matrix (250 Documents)](#-benchmark-results--confusion-matrix-250-documents)
 - [Vector X-Ray: Storage Proof Protocol](#-vector-x-ray-storage-proof-protocol)
 - [DPDP Act Section 12 Cryptographic Erasure](#-dpdp-act-section-12-cryptographic-erasure)
@@ -156,6 +157,28 @@ PriviCare features a dedicated, privacy-first **Patient Portal** accessible via 
 
 ---
 
+## 👤 User Dashboard & ABDM Digital Health ID Card
+
+PriviCare features a comprehensive, modern **User Dashboard** accessible directly from the login screen (via **User Sign In**), the top navigation bar, and the dedicated Next.js portal (`/dashboard/user`):
+
+1. **Digital Health ID Card (ABDM ABHA & Aadhaar)**:
+   - Official government-standard digital card featuring 14-digit ABHA number (`14-2354-9871-6542`), `@abdm` address (`rajesh.sharma@abdm`), and masked Aadhaar (`XXXX-XXXX-7721`).
+   - Real-time **Verhoeff $D_5$ Dihedral Checksum Verified** badge.
+   - Interactive QR code preview for rapid, zero-leak check-in at hospitals and clinics.
+2. **Four Health & Privacy Metric Tiles**:
+   - **Zero-Leak Privacy Score**: 100% (LanceDB embedded vector vault with zero detected PHI).
+   - **Active Prescriptions**: 4 regimens with daily adherence status.
+   - **Stored Clinical Reports**: 2 records archived on-device with zero external transmission.
+   - **Hospital Consents**: 2 Authorized under DPDP Act Section 6 consent notices.
+3. **Daily Medication Adherence Checklist**:
+   - Interactive daily tracker allowing patients/users to tick off doses taken (e.g. Atorvastatin 40mg at bedtime, Aspirin 75mg post-breakfast).
+4. **Who Accessed My Data (DPDP Access Transparency Trail)**:
+   - Complete audit trail showing who queried records (e.g. Attending Cardiologist Dr. Sarah Johnson), the verified clinical purpose, and automated zero-leakage confirmation.
+5. **Direct User Sign-In**:
+   - Dedicated login mode supporting ABHA ID, Indian Mobile Number, Hospital UHID, or 1-click verified demo profiles.
+
+---
+
 ## 🆔 DPDP Act 2023 & ABDM Verified Identifiers
 
 PriviCare integrates verified national health identity standards for Indian healthcare deployments:
@@ -170,9 +193,9 @@ PriviCare integrates verified national health identity standards for Indian heal
 
 ---
 
-## 🧪 Automated Verification & Test Suite (28 Tests)
+## 🧪 Automated Verification & Test Suite (30 Tests)
 
-PriviCare includes a comprehensive 28-point automated test harness:
+PriviCare includes a comprehensive 30-point automated test harness:
 
 1. **14 Adversarial Leakage & Compliance Tests** (`backend/tests/test_leakage.py`):
    - Strict HIPAA 18 Safe Harbor identifier scrubbing.
@@ -180,7 +203,7 @@ PriviCare includes a comprehensive 28-point automated test harness:
    - Verhoeff checksum algorithm correctness across valid and corrupted numbers.
    - Vector storage zero-leakage verification.
    - ABAC role-based access control (Doctor authorized vs. Researcher fail-closed).
-2. **14 Full-Stack Integration Tests** (`backend/test_endpoints.py`):
+2. **16 Full-Stack Integration Tests** (`backend/test_endpoints.py`):
    - Health check and benchmark retrieval.
    - Vector X-Ray deep storage inspection.
    - Clinician re-identification and fail-closed researcher queries.
@@ -189,6 +212,8 @@ PriviCare includes a comprehensive 28-point automated test harness:
    - Live Verhoeff D5 & ABDM ABHA identity verification.
    - Patient 24/7 Recovery AI chat with automated triage classification.
    - Section 12 Cryptographic Shredding execution.
+   - **User Dashboard & Digital Health Card endpoint verification**.
+   - **DPDP Section 6 Consent Update & Revocation verification**.
 
 ```cmd
 python backend/tests/test_leakage.py

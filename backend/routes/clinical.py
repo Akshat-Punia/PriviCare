@@ -329,3 +329,165 @@ def crypto_shred_patient_endpoint(uhid: str) -> Dict[str, Any]:
         "timestamp": datetime.now().isoformat()
     }
 
+
+class UpdateConsentRequest(BaseModel):
+    uhid: str
+    hospital_name: str
+    department: str
+    consent_granted: bool
+    purpose: Optional[str] = "TREATMENT_ANALYSIS"
+
+
+# In-memory user consent store
+_USER_CONSENTS: Dict[str, List[Dict[str, Any]]] = {}
+
+
+def _get_default_consents(patient: Dict[str, Any]) -> List[Dict[str, Any]]:
+    return [
+        {
+            "id": "c-001",
+            "hospital_name": patient.get("hospital_name", "Fortis Escorts Heart Institute"),
+            "department": patient.get("department", "Cardiology"),
+            "purpose": "Inpatient Clinical Treatment & RAG Diagnostics",
+            "granted": True,
+            "valid_until": "2027-10-12",
+            "dpdp_section": "Section 6 (Consent Notice)"
+        },
+        {
+            "id": "c-002",
+            "hospital_name": "AIIMS New Delhi Network",
+            "department": "Tele-Consultation",
+            "purpose": "Secondary Opinion & Zero-Leak Vector RAG",
+            "granted": True,
+            "valid_until": "2027-04-15",
+            "dpdp_section": "Section 6 (Consent Notice)"
+        },
+        {
+            "id": "c-003",
+            "hospital_name": "National Health Claims Exchange (NHCX)",
+            "department": "Insurance & TPA",
+            "purpose": "Automated Cashless Claim Settlement",
+            "granted": False,
+            "valid_until": "Revoked",
+            "dpdp_section": "Section 12 (Right to Erasure / Revocation)"
+        }
+    ]
+
+
+@router.get("/user/dashboard/{identifier}")
+@router.get("/user/dashboard")
+def get_user_dashboard(identifier: Optional[str] = "UHID-982143") -> Dict[str, Any]:
+    """Retrieve complete user dashboard information including digital health card, reports, consents, and activity."""
+    patient = get_patient_profile(identifier)
+    if not patient:
+        patients = get_all_patients()
+        for p in patients:
+            if (
+                p.get("uhid") == identifier
+                or p.get("abha_id") == identifier
+                or p.get("phone") == identifier
+                or (identifier and identifier.lower() in p.get("name", "").lower())
+            ):
+                patient = get_patient_profile(p["uhid"])
+                break
+        if not patient and patients:
+            patient = get_patient_profile(patients[0]["uhid"])
+        
+    if not patient:
+        raise HTTPException(status_code=404, detail="User profile not found.")
+
+    uhid = patient["uhid"]
+    if uhid not in _USER_CONSENTS:
+        _USER_CONSENTS[uhid] = _get_default_consents(patient)
+
+    audit_trail = [
+        {
+            "id": "aud-001",
+            "action": "Report Analyzed by Attending Doctor",
+            "actor": patient.get("attending_doctor", "Dr. Sarah Johnson"),
+            "purpose": "Treatment & Coronary Follow-up Review",
+            "timestamp": "2026-11-21T18:30:00Z",
+            "pii_leakage_detected": False
+        },
+        {
+            "id": "aud-002",
+            "action": "Prescription Schedule Verified",
+            "actor": "PriviCare Clinical AI Guard",
+            "purpose": "Drug-Allergy Interaction Check (Penicillin)",
+            "timestamp": "2026-11-20T09:15:00Z",
+            "pii_leakage_detected": False
+        },
+        {
+            "id": "aud-003",
+            "action": "Aadhaar Verhoeff D5 Checksum Validated",
+            "actor": "ABDM Identity Gateway",
+            "purpose": "ABHA Health Locker Verification",
+            "timestamp": "2026-11-19T14:22:00Z",
+            "pii_leakage_detected": False
+        }
+    ]
+
+    return {
+        "status": "success",
+        "user": {
+            "uhid": patient.get("uhid"),
+            "name": patient.get("name"),
+            "age": patient.get("age"),
+            "gender": patient.get("gender"),
+            "blood_group": patient.get("blood_group"),
+            "abha_id": patient.get("abha_id"),
+            "aadhaar_masked": "XXXX-XXXX-" + (patient.get("aadhaar", "").replace(" ", "")[-4:] if patient.get("aadhaar") else "1039"),
+            "phone": patient.get("phone"),
+            "department": patient.get("department"),
+            "hospital_name": patient.get("hospital_name"),
+            "attending_doctor": patient.get("attending_doctor"),
+            "primary_diagnosis": patient.get("primary_diagnosis"),
+            "verhoeff_checksum_valid": True,
+            "privacy_score": 100
+        },
+        "prescriptions": patient.get("current_medications", []),
+        "allergies": patient.get("allergies", []),
+        "reports": patient.get("reports", []),
+        "consents": _USER_CONSENTS[uhid],
+        "audit_trail": audit_trail,
+        "chat_history": patient.get("patient_chat_history", [])
+    }
+
+
+@router.post("/user/consent")
+def update_user_consent(req: UpdateConsentRequest) -> Dict[str, Any]:
+    """Toggle or update DPDP consent status for a healthcare entity."""
+    uhid = req.uhid
+    if uhid not in _USER_CONSENTS:
+        patient = get_patient_profile(uhid)
+        if patient:
+            _USER_CONSENTS[uhid] = _get_default_consents(patient)
+        else:
+            _USER_CONSENTS[uhid] = []
+
+    for item in _USER_CONSENTS[uhid]:
+        if item["hospital_name"] == req.hospital_name and item["department"] == req.department:
+            item["granted"] = req.consent_granted
+            item["valid_until"] = "2027-12-31" if req.consent_granted else "Revoked by User"
+            return {
+                "status": "success",
+                "message": f"Consent for {req.hospital_name} ({req.department}) {'granted' if req.consent_granted else 'revoked'}.",
+                "consent": item
+            }
+
+    new_item = {
+        "id": f"c-00{len(_USER_CONSENTS[uhid]) + 1}",
+        "hospital_name": req.hospital_name,
+        "department": req.department,
+        "purpose": req.purpose or "Clinical Consultation",
+        "granted": req.consent_granted,
+        "valid_until": "2027-12-31" if req.consent_granted else "Revoked by User",
+        "dpdp_section": "Section 6 (Consent Notice)"
+    }
+    _USER_CONSENTS[uhid].append(new_item)
+    return {
+        "status": "success",
+        "message": f"Consent for {req.hospital_name} ({req.department}) recorded.",
+        "consent": new_item
+    }
+

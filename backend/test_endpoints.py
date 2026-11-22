@@ -18,6 +18,9 @@ from routes.clinical import (
     patient_chat_endpoint,
     PatientChatRequest,
     crypto_shred_patient_endpoint,
+    get_user_dashboard,
+    update_user_consent,
+    UpdateConsentRequest,
 )
 
 print("[TEST 1] health_check", flush=True)
@@ -124,4 +127,25 @@ shred_res = crypto_shred_patient_endpoint("UHID-982143")
 print("Erasure Status:", shred_res["status"], "| Section:", shred_res["section"], flush=True)
 assert shred_res["status"] == "shredded"
 
-print("\n>>> ALL 14 INTEGRATION TESTS PASSED PERFECTLY! <<<", flush=True)
+print("\n[TEST 15] get_user_dashboard (User & Patient Digital Health Card)", flush=True)
+u_dash = get_user_dashboard("UHID-982143")
+print("User Name:", u_dash["user"]["name"], "| ABHA:", u_dash["user"]["abha_id"], "| Masked Aadhaar:", u_dash["user"]["aadhaar_masked"], flush=True)
+print("Consents Active:", len(u_dash["consents"]), "| Audit Trail Entries:", len(u_dash["audit_trail"]), flush=True)
+assert u_dash["status"] == "success"
+assert u_dash["user"]["uhid"] == "UHID-982143"
+assert len(u_dash["consents"]) >= 3
+assert len(u_dash["prescriptions"]) >= 3
+
+print("\n[TEST 16] update_user_consent (DPDP Consent Revocation / Grant)", flush=True)
+c_update = update_user_consent(UpdateConsentRequest(
+    uhid="UHID-982143",
+    hospital_name="AIIMS New Delhi Network",
+    department="Tele-Consultation",
+    consent_granted=False,
+    purpose="Secondary Opinion & Zero-Leak Vector RAG"
+))
+print("Consent Updated:", c_update["message"], "| Granted:", c_update["consent"]["granted"], flush=True)
+assert c_update["status"] == "success"
+assert c_update["consent"]["granted"] is False
+
+print("\n>>> ALL 16 INTEGRATION TESTS PASSED PERFECTLY! <<<", flush=True)
