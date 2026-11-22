@@ -81,263 +81,294 @@ def get_app_html() -> str:
         <p class="text-xs font-semibold tracking-wider uppercase text-slate-500 dark:text-slate-400 mt-1">
           CARE IN EVERY DATA BEAT
         </p>
-        <p class="text-xs text-blue-600 dark:text-blue-400 font-medium mt-1">
+        <p id="portal-badge-indicator" class="text-xs text-blue-600 dark:text-blue-400 font-medium mt-1">
           <i class="fa-solid fa-user-doctor mr-1"></i> Doctor Clinical Intelligence Portal
         </p>
       </div>
 
-      <!-- Legal & Architecture Notice -->
-      <div class="mb-5 p-3 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900/60 text-xs text-blue-900 dark:text-blue-200 leading-relaxed">
-        <div class="font-semibold flex items-center gap-1.5 mb-1 text-blue-800 dark:text-blue-300">
-          <i class="fa-solid fa-shield-halved"></i> Fail-Closed Clinical Security
-        </div>
-        PriviCare is designed to prevent detected PHI and PII from entering vector storage or external model requests, with leakage testing, auditability and fail-closed processing.
-      </div>
-
-      <!-- Mode Selector Tabs: Doctor Sign In / User Sign In / Create Account -->
-      <div class="flex border-b border-slate-200 dark:border-slate-800 mb-5">
-        <button type="button" id="tab-login-signin" onclick="switchLoginMode('signin')"
-          class="flex-1 py-2 text-center text-xs font-bold border-b-2 border-blue-600 text-blue-600 transition-colors">
-          <i class="fa-solid fa-user-doctor mr-1"></i> Doctor
+      <!-- DUAL-PORTAL SEGMENTED CONTROLLER: DOCTOR VS PATIENT LOGIN -->
+      <div class="grid grid-cols-2 p-1.5 bg-slate-100 dark:bg-slate-900 rounded-2xl mb-5 border border-slate-200 dark:border-slate-800 shadow-inner">
+        <button type="button" id="btn-portal-doctor" onclick="switchLoginPortal('doctor')"
+          class="py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm border border-blue-200/50 cursor-pointer">
+          <i class="fa-solid fa-user-doctor"></i> Doctor Portal
         </button>
-        <button type="button" id="tab-login-user" onclick="switchLoginMode('user')"
-          class="flex-1 py-2 text-center text-xs font-semibold text-slate-500 hover:text-teal-600 dark:text-slate-400 dark:hover:text-teal-400 transition-colors">
-          <i class="fa-solid fa-hospital-user mr-1"></i> User Sign In
-        </button>
-        <button type="button" id="tab-login-register" onclick="switchLoginMode('register')"
-          class="flex-1 py-2 text-center text-xs font-semibold text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors">
-          <i class="fa-solid fa-user-plus mr-1"></i> Doctor Reg
+        <button type="button" id="btn-portal-patient" onclick="switchLoginPortal('patient')"
+          class="py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 text-slate-500 hover:text-teal-600 dark:text-slate-400 dark:hover:text-teal-300 cursor-pointer">
+          <i class="fa-solid fa-hospital-user"></i> Patient & Citizen
         </button>
       </div>
 
-      <!-- FORM 1: DOCTOR SIGN IN -->
-      <form id="doctor-login-form" onsubmit="handleDoctorLogin(event); return false;" class="space-y-3.5">
-        <div>
-          <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
-            <i class="fa-solid fa-id-card-clip mr-1"></i> Doctor ID / Registered Gmail
-          </label>
-          <input type="text" id="login-doctor-id" required value="DR-SARAH-JOHNSON"
-            class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
-        </div>
-
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
-              <i class="fa-solid fa-hospital mr-1"></i> Hospital ID
-            </label>
-            <input type="text" id="login-hospital-id" required value="HOSP_01"
-              class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+      <!-- ==================== SECTION A: DOCTOR CLINICAL LOGIN ==================== -->
+      <div id="section-doctor-login" class="space-y-4">
+        <!-- Legal & Architecture Notice -->
+        <div class="p-3 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900/60 text-xs text-blue-900 dark:text-blue-200 leading-relaxed">
+          <div class="font-semibold flex items-center gap-1.5 mb-1 text-blue-800 dark:text-blue-300">
+            <i class="fa-solid fa-shield-halved"></i> Fail-Closed Clinical Security
           </div>
-          <div>
-            <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
-              <i class="fa-solid fa-stethoscope mr-1"></i> Department
-            </label>
-            <select id="login-department" class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
-              <option value="Cardiology" selected>Cardiology</option>
-              <option value="Oncology">Oncology</option>
-              <option value="Pulmonology">Pulmonology</option>
-              <option value="General Medicine">General Medicine</option>
-              <option value="Neurology">Neurology</option>
-              <option value="Pediatrics">Pediatrics</option>
-              <option value="Orthopedics">Orthopedics</option>
-            </select>
-          </div>
+          PriviCare is designed to prevent detected PHI and PII from entering vector storage or external model requests, with leakage testing, auditability and fail-closed processing.
         </div>
 
-        <div>
-          <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
-            <i class="fa-solid fa-key mr-1"></i> Clinical Vault Passkey
-          </label>
-          <input type="password" id="login-password" required value="PriviDoctor2026!"
-            class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
-        </div>
-
-        <button type="button" onclick="handleDoctorLogin(event)"
-          class="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-xl text-sm shadow-md transition-all flex items-center justify-center gap-2">
-          <i class="fa-solid fa-right-to-bracket"></i> Authenticate & Open Clinical Suite
-        </button>
-
-        <!-- Divider -->
-        <div class="relative my-3 flex items-center justify-center">
-          <div class="border-t border-slate-200 dark:border-slate-800 w-full"></div>
-          <span class="bg-white dark:bg-slate-950 px-2.5 text-[10px] uppercase tracking-wider text-slate-400 font-bold absolute">OR</span>
-        </div>
-
-        <!-- Google / Gmail Sign In Option -->
-        <button type="button" onclick="openGoogleSignInModal()"
-          class="w-full py-2.5 px-4 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold rounded-xl text-xs shadow-sm flex items-center justify-center gap-2.5 transition-all">
-          <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24">
-            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-          </svg>
-          <span>Sign in via Gmail / Google Workspace</span>
-        </button>
-      </form>
-
-      <!-- FORM 2: CREATE DOCTOR ACCOUNT -->
-      <form id="doctor-register-form" onsubmit="handleDoctorRegister(event); return false;" class="hidden space-y-3 text-xs">
-        <div>
-          <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">
-            <i class="fa-solid fa-user-doctor mr-1"></i> Doctor Full Name *
-          </label>
-          <input type="text" id="reg-doctor-name" required placeholder="e.g. Dr. Rajesh Gupta, MD"
-            class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 outline-none focus:ring-2 focus:ring-blue-500">
-        </div>
-
-        <div>
-          <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">
-            <i class="fa-solid fa-envelope mr-1"></i> Official Gmail / Email *
-          </label>
-          <input type="email" id="reg-doctor-email" required placeholder="e.g. dr.rajesh.gupta@gmail.com"
-            class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 outline-none focus:ring-2 focus:ring-blue-500">
-        </div>
-
-        <div class="grid grid-cols-2 gap-2.5">
-          <div>
-            <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">
-              <i class="fa-solid fa-id-badge mr-1"></i> Doctor / License ID *
-            </label>
-            <input type="text" id="reg-doctor-id" required placeholder="DR-RAJESH-GUPTA"
-              class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 outline-none focus:ring-2 focus:ring-blue-500 font-mono">
-          </div>
-          <div>
-            <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">
-              <i class="fa-solid fa-stethoscope mr-1"></i> Department *
-            </label>
-            <select id="reg-doctor-dept" class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 outline-none focus:ring-2 focus:ring-blue-500">
-              <option value="Cardiology">Cardiology</option>
-              <option value="Oncology">Oncology</option>
-              <option value="Pulmonology">Pulmonology</option>
-              <option value="General Medicine" selected>General Medicine</option>
-              <option value="Neurology">Neurology</option>
-              <option value="Pediatrics">Pediatrics</option>
-              <option value="Orthopedics">Orthopedics</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-2.5">
-          <div>
-            <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">
-              <i class="fa-solid fa-hospital mr-1"></i> Hospital Name
-            </label>
-            <input type="text" id="reg-hospital-name" value="Fortis Healthcare" placeholder="e.g. AIIMS Delhi"
-              class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 outline-none focus:ring-2 focus:ring-blue-500">
-          </div>
-          <div>
-            <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">
-              <i class="fa-solid fa-hashtag mr-1"></i> Hospital ID
-            </label>
-            <input type="text" id="reg-hospital-id" value="HOSP_01" placeholder="HOSP_01"
-              class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 outline-none focus:ring-2 focus:ring-blue-500 font-mono">
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-2.5">
-          <div>
-            <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">
-              <i class="fa-solid fa-lock mr-1"></i> Create Passkey *
-            </label>
-            <input type="password" id="reg-password" required placeholder="Minimum 6 characters"
-              class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 outline-none focus:ring-2 focus:ring-blue-500">
-          </div>
-          <div>
-            <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">
-              <i class="fa-solid fa-check-double mr-1"></i> Confirm Passkey *
-            </label>
-            <input type="password" id="reg-confirm-password" required placeholder="Re-enter passkey"
-              class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 outline-none focus:ring-2 focus:ring-blue-500">
-          </div>
-        </div>
-
-        <div class="p-2.5 rounded-lg bg-teal-50 dark:bg-teal-950/30 border border-teal-200 dark:border-teal-900 text-[11px] text-teal-800 dark:text-teal-300 flex items-start gap-2">
-          <input type="checkbox" id="reg-compliance-agree" checked required class="mt-0.5 rounded text-teal-600">
-          <label for="reg-compliance-agree">
-            I confirm compliance with India DPDP Act 2023 & ABDM guidelines for zero-leakage clinical data fiduciary processing.
-          </label>
-        </div>
-
-        <button type="button" onclick="handleDoctorRegister(event)"
-          class="w-full py-3 px-4 bg-gradient-to-r from-teal-600 to-blue-600 hover:from-teal-700 hover:to-blue-700 text-white font-semibold rounded-xl text-sm shadow-md transition-all flex items-center justify-center gap-2">
-          <i class="fa-solid fa-user-plus"></i> Create Account & Open Clinical Suite
-        </button>
-
-        <div class="text-center pt-2 text-slate-500">
-          Already registered? <button type="button" onclick="switchLoginMode('signin')" class="text-blue-600 hover:underline font-bold">Back to Sign In</button>
-        </div>
-      </form>
-
-      <!-- FORM 3: USER / PATIENT SIGN IN -->
-      <form id="user-login-form" onsubmit="handleUserLogin(event); return false;" class="hidden space-y-3.5">
-        <div class="p-3 rounded-xl bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-900/60 text-xs text-teal-900 dark:text-teal-200 leading-relaxed">
-          <div class="font-semibold flex items-center gap-1.5 mb-1 text-teal-800 dark:text-teal-300">
-            <i class="fa-solid fa-shield-halved"></i> ABDM & India DPDP Act Verified Portal
-          </div>
-          Access your digital health card, medical records vault, recovery AI co-pilot, and manage hospital data consents.
-        </div>
-
-        <div>
-          <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
-            <i class="fa-solid fa-id-card mr-1"></i> ABHA 14-Digit ID / Mobile / UHID
-          </label>
-          <input type="text" id="login-user-identifier" required value="14-2354-9871-6542"
-            class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:ring-2 focus:ring-teal-500 outline-none font-mono">
-          <p class="text-[10px] text-slate-500 mt-1">Use registered ABHA ID (14-digit or @abdm), Mobile (+91), or Hospital UHID</p>
-        </div>
-
-        <div>
-          <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
-            <i class="fa-solid fa-key mr-1"></i> Personal Passcode / Zero-Knowledge PIN
-          </label>
-          <input type="password" id="login-user-passcode" value="123456"
-            class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:ring-2 focus:ring-teal-500 outline-none font-mono">
-        </div>
-
-        <button type="button" onclick="handleUserLogin(event)"
-          class="w-full py-3 px-4 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white font-semibold rounded-xl text-sm shadow-md transition-all flex items-center justify-center gap-2">
-          <i class="fa-solid fa-shield-halved"></i> Access My User Dashboard
-        </button>
-
-        <!-- 1-Click Demo User Profiles -->
-        <div class="pt-3 border-t border-slate-200 dark:border-slate-800">
-          <p class="text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-2 text-center">
-            Instant 1-Click Demo Profiles:
-          </p>
-          <div class="grid grid-cols-2 gap-2 text-xs">
-            <button type="button" onclick="quickLoginUser('UHID-982143')"
-              class="p-2.5 text-left rounded-xl border border-teal-200 dark:border-teal-900/60 bg-teal-50/70 dark:bg-teal-950/40 hover:bg-teal-100 transition-colors">
-              <div class="font-bold text-teal-800 dark:text-teal-200 flex items-center gap-1">
-                <i class="fa-solid fa-user-check text-[10px]"></i> Rajesh Sharma
-              </div>
-              <div class="text-[10px] text-slate-500 font-mono mt-0.5">Cardiology • ABHA</div>
-            </button>
-            <button type="button" onclick="quickLoginUser('UHID-447219')"
-              class="p-2.5 text-left rounded-xl border border-teal-200 dark:border-teal-900/60 bg-teal-50/70 dark:bg-teal-950/40 hover:bg-teal-100 transition-colors">
-              <div class="font-bold text-teal-800 dark:text-teal-200 flex items-center gap-1">
-                <i class="fa-solid fa-user-check text-[10px]"></i> Priya Patel
-              </div>
-              <div class="text-[10px] text-slate-500 font-mono mt-0.5">Neurology • ABHA</div>
-            </button>
-          </div>
-        </div>
-      </form>
-
-      <!-- Quick Sign-In Buttons -->
-      <div class="mt-5 pt-4 border-t border-slate-200 dark:border-slate-800">
-        <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400 mb-2 text-center">
-          1-Click Doctor Verification:
-        </p>
-        <div class="grid grid-cols-1 gap-2">
-          <button type="button" onclick="quickDoctorLogin('DR-SARAH-JOHNSON', 'Cardiology')"
-            class="w-full py-2.5 px-3 rounded-lg border border-blue-200 dark:border-blue-900/60 bg-blue-50/70 dark:bg-blue-950/40 hover:bg-blue-100 text-xs font-medium text-blue-900 dark:text-blue-200 flex items-center justify-between transition-colors">
-            <span class="flex items-center gap-2">
-              <i class="fa-solid fa-heart-pulse text-rose-500"></i> Dr. Sarah Johnson (Cardiology)
-            </span>
-            <span class="text-[10px] bg-blue-200 dark:bg-blue-800 px-2 py-0.5 rounded font-mono">Fortis Escorts</span>
+        <!-- Mode Selector Sub-Tabs: Doctor Sign In / Register -->
+        <div class="flex border-b border-slate-200 dark:border-slate-800 mb-3">
+          <button type="button" id="tab-login-signin" onclick="switchLoginMode('signin')"
+            class="flex-1 py-2 text-center text-xs font-bold border-b-2 border-blue-600 text-blue-600 transition-colors cursor-pointer">
+            <i class="fa-solid fa-right-to-bracket mr-1"></i> Clinician Sign In
+          </button>
+          <button type="button" id="tab-login-register" onclick="switchLoginMode('register')"
+            class="flex-1 py-2 text-center text-xs font-semibold text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors cursor-pointer">
+            <i class="fa-solid fa-user-plus mr-1"></i> Register License
           </button>
         </div>
+
+        <!-- FORM 1: DOCTOR SIGN IN -->
+        <form id="doctor-login-form" onsubmit="handleDoctorLogin(event); return false;" class="space-y-3.5">
+          <div>
+            <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
+              <i class="fa-solid fa-id-card-clip mr-1"></i> Doctor ID / Registered Gmail
+            </label>
+            <input type="text" id="login-doctor-id" required value="DR-SARAH-JOHNSON"
+              class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
+                <i class="fa-solid fa-hospital mr-1"></i> Hospital ID
+              </label>
+              <input type="text" id="login-hospital-id" required value="HOSP_01"
+                class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
+                <i class="fa-solid fa-stethoscope mr-1"></i> Department
+              </label>
+              <select id="login-department" class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                <option value="Cardiology" selected>Cardiology</option>
+                <option value="Oncology">Oncology</option>
+                <option value="Pulmonology">Pulmonology</option>
+                <option value="General Medicine">General Medicine</option>
+                <option value="Neurology">Neurology</option>
+                <option value="Pediatrics">Pediatrics</option>
+                <option value="Orthopedics">Orthopedics</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
+              <i class="fa-solid fa-key mr-1"></i> Clinical Vault Passkey
+            </label>
+            <input type="password" id="login-password" required value="PriviDoctor2026!"
+              class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+          </div>
+
+          <button type="button" onclick="handleDoctorLogin(event)"
+            class="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-xl text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-right-to-bracket"></i> Authenticate & Open Clinical Suite
+          </button>
+
+          <!-- Divider -->
+          <div class="relative my-3 flex items-center justify-center">
+            <div class="border-t border-slate-200 dark:border-slate-800 w-full"></div>
+            <span class="bg-white dark:bg-slate-950 px-2.5 text-[10px] uppercase tracking-wider text-slate-400 font-bold absolute">OR</span>
+          </div>
+
+          <!-- Google / Gmail Sign In Option -->
+          <button type="button" onclick="openGoogleSignInModal()"
+            class="w-full py-2.5 px-4 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold rounded-xl text-xs shadow-sm flex items-center justify-center gap-2.5 transition-all cursor-pointer">
+            <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+            </svg>
+            <span>Sign in via Gmail / Google Workspace</span>
+          </button>
+        </form>
+
+        <!-- FORM 2: CREATE DOCTOR ACCOUNT -->
+        <form id="doctor-register-form" onsubmit="handleDoctorRegister(event); return false;" class="hidden space-y-3 text-xs">
+          <div>
+            <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">
+              <i class="fa-solid fa-user-doctor mr-1"></i> Doctor Full Name *
+            </label>
+            <input type="text" id="reg-doctor-name" required placeholder="e.g. Dr. Rajesh Gupta, MD"
+              class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 outline-none focus:ring-2 focus:ring-blue-500">
+          </div>
+
+          <div>
+            <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">
+              <i class="fa-solid fa-envelope mr-1"></i> Official Gmail / Email *
+            </label>
+            <input type="email" id="reg-doctor-email" required placeholder="e.g. dr.rajesh.gupta@gmail.com"
+              class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 outline-none focus:ring-2 focus:ring-blue-500">
+          </div>
+
+          <div class="grid grid-cols-2 gap-2.5">
+            <div>
+              <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">
+                <i class="fa-solid fa-id-badge mr-1"></i> Doctor / License ID *
+              </label>
+              <input type="text" id="reg-doctor-id" required placeholder="DR-RAJESH-GUPTA"
+                class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 outline-none focus:ring-2 focus:ring-blue-500 font-mono">
+            </div>
+            <div>
+              <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">
+                <i class="fa-solid fa-stethoscope mr-1"></i> Department *
+              </label>
+              <select id="reg-doctor-dept" class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="Cardiology">Cardiology</option>
+                <option value="Oncology">Oncology</option>
+                <option value="Pulmonology">Pulmonology</option>
+                <option value="General Medicine" selected>General Medicine</option>
+                <option value="Neurology">Neurology</option>
+                <option value="Pediatrics">Pediatrics</option>
+                <option value="Orthopedics">Orthopedics</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2.5">
+            <div>
+              <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">
+                <i class="fa-solid fa-hospital mr-1"></i> Hospital Name
+              </label>
+              <input type="text" id="reg-hospital-name" value="Fortis Healthcare" placeholder="e.g. AIIMS Delhi"
+                class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+              <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">
+                <i class="fa-solid fa-hashtag mr-1"></i> Hospital ID
+              </label>
+              <input type="text" id="reg-hospital-id" value="HOSP_01" placeholder="HOSP_01"
+                class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 outline-none focus:ring-2 focus:ring-blue-500 font-mono">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2.5">
+            <div>
+              <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">
+                <i class="fa-solid fa-lock mr-1"></i> Create Passkey *
+              </label>
+              <input type="password" id="reg-password" required placeholder="Minimum 6 characters"
+                class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+              <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">
+                <i class="fa-solid fa-check-double mr-1"></i> Confirm Passkey *
+              </label>
+              <input type="password" id="reg-confirm-password" required placeholder="Re-enter passkey"
+                class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+          </div>
+
+          <div class="p-2.5 rounded-lg bg-teal-50 dark:bg-teal-950/30 border border-teal-200 dark:border-teal-900 text-[11px] text-teal-800 dark:text-teal-300 flex items-start gap-2">
+            <input type="checkbox" id="reg-compliance-agree" checked required class="mt-0.5 rounded text-teal-600">
+            <label for="reg-compliance-agree">
+              I confirm compliance with India DPDP Act 2023 & ABDM guidelines for zero-leakage clinical data fiduciary processing.
+            </label>
+          </div>
+
+          <button type="button" onclick="handleDoctorRegister(event)"
+            class="w-full py-3 px-4 bg-gradient-to-r from-teal-600 to-blue-600 hover:from-teal-700 hover:to-blue-700 text-white font-semibold rounded-xl text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-user-plus"></i> Create Account & Open Clinical Suite
+          </button>
+
+          <div class="text-center pt-2 text-slate-500">
+            Already registered? <button type="button" onclick="switchLoginMode('signin')" class="text-blue-600 hover:underline font-bold cursor-pointer">Back to Sign In</button>
+          </div>
+        </form>
+
+        <!-- Quick 1-Click Doctor Verification -->
+        <div class="pt-3 border-t border-slate-200 dark:border-slate-800">
+          <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400 mb-2 text-center">
+            1-Click Doctor Verification:
+          </p>
+          <div class="grid grid-cols-1 gap-2">
+            <button type="button" onclick="quickDoctorLogin('DR-SARAH-JOHNSON', 'Cardiology')"
+              class="w-full py-2.5 px-3 rounded-lg border border-blue-200 dark:border-blue-900/60 bg-blue-50/70 dark:bg-blue-950/40 hover:bg-blue-100 text-xs font-medium text-blue-900 dark:text-blue-200 flex items-center justify-between transition-colors cursor-pointer">
+              <span class="flex items-center gap-2">
+                <i class="fa-solid fa-heart-pulse text-rose-500"></i> Dr. Sarah Johnson (Cardiology)
+              </span>
+              <span class="text-[10px] bg-blue-200 dark:bg-blue-800 px-2 py-0.5 rounded font-mono">Fortis Escorts</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SECTION B: DEDICATED PATIENT & CITIZEN LOGIN ==================== -->
+      <div id="section-patient-login" class="hidden space-y-4">
+        <!-- ABDM & DPDP Notice Banner -->
+        <div class="p-3.5 rounded-2xl bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-900/60 text-xs text-teal-900 dark:text-teal-200 leading-relaxed space-y-1.5">
+          <div class="font-bold flex items-center justify-between text-teal-800 dark:text-teal-300">
+            <span class="flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-teal-600"></i> Ayushman Bharat (ABDM) & DPDP Act 2023</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-teal-200/60 dark:bg-teal-900/60 font-mono">NHA Standard</span>
+          </div>
+          <p class="text-[11px] text-teal-700 dark:text-teal-300/80">
+            Secure Personal Health Locker with zero-knowledge cryptographic isolation. Access your ABHA Digital Health Card, daily prescriptions schedule, ambulatory telemetry, and 24/7 personal recovery AI.
+          </p>
+        </div>
+
+        <!-- FORM 3: USER / PATIENT SIGN IN -->
+        <form id="user-login-form" onsubmit="handleUserLogin(event); return false;" class="space-y-3.5">
+          <div>
+            <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
+              <i class="fa-solid fa-id-card mr-1 text-teal-600"></i> ABDM 14-Digit ABHA ID / Mobile / UHID
+            </label>
+            <input type="text" id="login-user-identifier" required value="14-2354-9871-6542"
+              class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:ring-2 focus:ring-teal-500 outline-none font-mono">
+            <p class="text-[10px] text-slate-500 mt-1">Accepts 14-Digit ABHA (`14-2354-9871-6542`), `@abdm` address, or Hospital UHID</p>
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
+              <i class="fa-solid fa-key mr-1 text-teal-600"></i> Personal Passcode / Zero-Knowledge PIN
+            </label>
+            <input type="password" id="login-user-passcode" value="123456"
+              class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:ring-2 focus:ring-teal-500 outline-none font-mono">
+          </div>
+
+          <button type="button" onclick="handleUserLogin(event)"
+            class="w-full py-3 px-4 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white font-semibold rounded-xl text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-hospital-user"></i> Authenticate & Open Patient Health Dashboard
+          </button>
+
+          <!-- 1-Click Demo User Profiles -->
+          <div class="pt-3 border-t border-slate-200 dark:border-slate-800">
+            <p class="text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-2 text-center">
+              1-Click Verified Patient Profiles:
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+              <button type="button" onclick="quickLoginUser('UHID-982143')"
+                class="p-2.5 text-left rounded-xl border border-teal-200 dark:border-teal-900/60 bg-teal-50/70 dark:bg-teal-950/40 hover:bg-teal-100 transition-colors cursor-pointer">
+                <div class="font-bold text-teal-800 dark:text-teal-200 flex items-center gap-1">
+                  <i class="fa-solid fa-user-check text-[10px]"></i> Rajesh Sharma
+                </div>
+                <div class="text-[10px] text-slate-500 font-mono mt-0.5">Cardiology • Post-PCI</div>
+              </button>
+              <button type="button" onclick="quickLoginUser('UHID-447219')"
+                class="p-2.5 text-left rounded-xl border border-teal-200 dark:border-teal-900/60 bg-teal-50/70 dark:bg-teal-950/40 hover:bg-teal-100 transition-colors cursor-pointer">
+                <div class="font-bold text-teal-800 dark:text-teal-200 flex items-center gap-1">
+                  <i class="fa-solid fa-user-check text-[10px]"></i> Priya Patel
+                </div>
+                <div class="text-[10px] text-slate-500 font-mono mt-0.5">Neurology • Follow-up</div>
+              </button>
+              <button type="button" onclick="quickLoginUser('UHID-551029')"
+                class="p-2.5 text-left rounded-xl border border-teal-200 dark:border-teal-900/60 bg-teal-50/70 dark:bg-teal-950/40 hover:bg-teal-100 transition-colors cursor-pointer">
+                <div class="font-bold text-teal-800 dark:text-teal-200 flex items-center gap-1">
+                  <i class="fa-solid fa-user-check text-[10px]"></i> Amit Kumar
+                </div>
+                <div class="text-[10px] text-slate-500 font-mono mt-0.5">Pulmonology • Asthma</div>
+              </button>
+            </div>
+          </div>
+
+          <!-- ABDM Government Link Notice -->
+          <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 text-[10px] text-slate-500 flex items-center justify-between">
+            <span>Don't have an ABHA number yet?</span>
+            <span class="font-bold text-teal-600">healthid.ndhm.gov.in</span>
+          </div>
+        </form>
       </div>
 
       <!-- Local Machine Notice -->
@@ -2389,31 +2420,49 @@ Scanning vector storage...
     // -------------------------------------------------------------------------
     // Doctor & User Authentication & Mode Switching
     // -------------------------------------------------------------------------
+    function switchLoginPortal(portal) {
+      const secDoctor = document.getElementById("section-doctor-login");
+      const secPatient = document.getElementById("section-patient-login");
+      const btnDoctor = document.getElementById("btn-portal-doctor");
+      const btnPatient = document.getElementById("btn-portal-patient");
+      const badge = document.getElementById("portal-badge-indicator");
+
+      if (portal === "patient") {
+        if (secDoctor) secDoctor.classList.add("hidden");
+        if (secPatient) secPatient.classList.remove("hidden");
+        if (btnDoctor) btnDoctor.className = "py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 text-slate-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-300 cursor-pointer";
+        if (btnPatient) btnPatient.className = "py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 bg-white dark:bg-slate-800 text-teal-600 dark:text-teal-300 shadow-sm border border-teal-200/50 cursor-pointer";
+        if (badge) badge.innerHTML = `<i class="fa-solid fa-hospital-user mr-1 text-teal-600"></i> <span class="text-teal-700 dark:text-teal-300 font-semibold">Patient & Citizen Health Portal (ABDM)</span>`;
+      } else {
+        if (secDoctor) secDoctor.classList.remove("hidden");
+        if (secPatient) secPatient.classList.add("hidden");
+        if (btnDoctor) btnDoctor.className = "py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm border border-blue-200/50 cursor-pointer";
+        if (btnPatient) btnPatient.className = "py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 text-slate-500 hover:text-teal-600 dark:text-slate-400 dark:hover:text-teal-300 cursor-pointer";
+        if (badge) badge.innerHTML = `<i class="fa-solid fa-user-doctor mr-1 text-blue-600"></i> <span class="text-blue-700 dark:text-blue-300 font-semibold">Doctor Clinical Intelligence Portal</span>`;
+      }
+    }
+
     function switchLoginMode(mode) {
+      if (mode === "user") {
+        switchLoginPortal("patient");
+        return;
+      }
+      switchLoginPortal("doctor");
       const formSignIn = document.getElementById("doctor-login-form");
       const formRegister = document.getElementById("doctor-register-form");
-      const formUser = document.getElementById("user-login-form");
       const tabSignIn = document.getElementById("tab-login-signin");
       const tabRegister = document.getElementById("tab-login-register");
-      const tabUser = document.getElementById("tab-login-user");
-
-      if (formSignIn) formSignIn.classList.add("hidden");
-      if (formRegister) formRegister.classList.add("hidden");
-      if (formUser) formUser.classList.add("hidden");
-
-      if (tabSignIn) tabSignIn.className = "flex-1 py-2 text-center text-xs font-semibold text-slate-500 hover:text-blue-600 dark:text-slate-400 transition-colors cursor-pointer";
-      if (tabRegister) tabRegister.className = "flex-1 py-2 text-center text-xs font-semibold text-slate-500 hover:text-slate-700 dark:text-slate-400 transition-colors cursor-pointer";
-      if (tabUser) tabUser.className = "flex-1 py-2 text-center text-xs font-semibold text-slate-500 hover:text-teal-600 dark:text-slate-400 transition-colors cursor-pointer";
 
       if (mode === "register") {
+        if (formSignIn) formSignIn.classList.add("hidden");
         if (formRegister) formRegister.classList.remove("hidden");
-        if (tabRegister) tabRegister.className = "flex-1 py-2 text-center text-xs font-bold border-b-2 border-teal-600 text-teal-600 transition-colors cursor-pointer";
-      } else if (mode === "user") {
-        if (formUser) formUser.classList.remove("hidden");
-        if (tabUser) tabUser.className = "flex-1 py-2 text-center text-xs font-bold border-b-2 border-teal-600 text-teal-600 transition-colors cursor-pointer";
+        if (tabSignIn) tabSignIn.className = "flex-1 py-2 text-center text-xs font-semibold text-slate-500 hover:text-blue-600 dark:text-slate-400 transition-colors cursor-pointer";
+        if (tabRegister) tabRegister.className = "flex-1 py-2 text-center text-xs font-bold border-b-2 border-blue-600 text-blue-600 transition-colors cursor-pointer";
       } else {
         if (formSignIn) formSignIn.classList.remove("hidden");
+        if (formRegister) formRegister.classList.add("hidden");
         if (tabSignIn) tabSignIn.className = "flex-1 py-2 text-center text-xs font-bold border-b-2 border-blue-600 text-blue-600 transition-colors cursor-pointer";
+        if (tabRegister) tabRegister.className = "flex-1 py-2 text-center text-xs font-semibold text-slate-500 hover:text-slate-700 dark:text-slate-400 transition-colors cursor-pointer";
       }
     }
 

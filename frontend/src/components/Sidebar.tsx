@@ -20,10 +20,11 @@ interface SidebarProps {
 
 const navItems = [
   { href: "/dashboard", label: "Doctor Dashboard", icon: LayoutDashboard },
-  { href: "/dashboard/patient", label: "Patient Portal", icon: UserCheck },
+  { href: "/dashboard/user", label: "User Dashboard", icon: UserCheck },
+  { href: "/dashboard/patient", label: "Patient Portal", icon: ShieldCheck },
   { href: "/dashboard/upload", label: "Upload Documents", icon: Upload },
   { href: "/dashboard/chat", label: "Chat", icon: MessageSquare },
-  { href: "/dashboard/audit", label: "Audit & Vector X-Ray", icon: ShieldCheck },
+  { href: "/dashboard/audit", label: "Audit & Vector X-Ray", icon: Shield },
   { href: "/dashboard/settings", label: "Settings", icon: Settings },
 ];
 
