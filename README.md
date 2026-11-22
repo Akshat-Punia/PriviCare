@@ -28,12 +28,16 @@
 - [How It Works: Doctor Clinical Journey](#-how-it-works-doctor-clinical-journey)
 - [Local Machine Execution (HDD/SSD, No Chrome)](#-local-machine-execution-hddssd-no-chrome)
 - [Patient Chat History Review for Doctors](#-patient-chat-history-review-for-doctors)
-- [Patient-Side Interface & 24/7 Recovery AI](#-patient-side-interface--247-recovery-ai)
+- [Live Drug-Drug & Drug-Allergy Interaction Engine](#-live-drug-drug--drug-allergy-interaction-engine)
+- [Automated SOAP Clinical Note & Discharge Summary Generator](#-automated-soap-clinical-note--discharge-summary-generator)
+- [ABDM Ayushman Bharat HL7 FHIR R4 Bundle Exporter](#-abdm-ayushman-bharat-hl7-fhir-r4-bundle-exporter)
+- [Live Ambulatory Cardiac Telemetry & Vitals Monitor](#-live-ambulatory-cardiac-telemetry--vitals-monitor)
+- [Patient-Side Interface & Regional Bhashini Multi-Language Engine](#-patient-side-interface--regional-bhashini-multi-language-engine)
 - [User Dashboard & ABDM Digital Health ID Card](#-user-dashboard--abdm-digital-health-id-card)
 - [DPDP Act 2023 & ABDM Verified Identifiers](#-dpdp-act-2023--abdm-verified-identifiers)
 - [Historical Medical Report Analysis & OCR](#-historical-medical-report-analysis--ocr)
 - [Doctor AI Clinical Co-Pilot (RAG-Powered)](#-doctor-ai-clinical-co-pilot-rag-powered)
-- [Automated Verification & Test Suite (30 Tests)](#-automated-verification--test-suite-30-tests)
+- [Automated Verification & Test Suite (35 Tests)](#-automated-verification--test-suite-35-tests)
 - [Benchmark Results & Confusion Matrix (250 Documents)](#-benchmark-results--confusion-matrix-250-documents)
 - [Vector X-Ray: Storage Proof Protocol](#-vector-x-ray-storage-proof-protocol)
 - [DPDP Act Section 12 Cryptographic Erasure](#-dpdp-act-section-12-cryptographic-erasure)
@@ -157,6 +161,62 @@ PriviCare features a dedicated, privacy-first **Patient Portal** accessible via 
 
 ---
 
+## 💊 Live Drug-Drug & Drug-Allergy Interaction Engine
+
+PriviCare incorporates a multi-dimensional rule-based pharmacology screening engine (`check_drug_interactions`) executing locally at zero latency:
+- **CYP3A4 Metabolic Inhibition**: Screens statins (e.g. Atorvastatin) against CYP3A4 inhibitors (Grapefruit juice, Clarithromycin), flagging critical 3x serum elevation and rhabdomyolysis risks (`CRITICAL_AVOID`).
+- **Antiplatelet Bleeding & Thrombosis Risks**: Detects competitive COX-1 antagonism between cardioprotective Aspirin (post-PCI) and NSAIDs (Ibuprofen, Naproxen) that elevate GI hemorrhage risks (`HIGH_MONITOR`).
+- **Drug-Allergy Cross-Reactivity**: Screens active prescriptions against documented patient hypersensitivities (e.g., Penicillin cross-reactivity with Amoxicillin/Augmentin), generating instant contraindication warnings.
+- **Dietary & Electrolyte Conflicts**: Detects hyperkalemia risks between potassium supplements and ARBs/ACE inhibitors (Telmisartan, Ramipril).
+
+---
+
+## 📋 Automated SOAP Clinical Note & Discharge Summary Generator
+
+Provides instant synthesis of patient clinical records, stent interventions, and telemetry into standardized SOAP clinical discharge summaries:
+- **Subjective (S)**: Patient demographics, chief complaints, and admission symptoms.
+- **Objective (O)**: Hemodynamic telemetry, laboratory panels (lipids, HbA1c, troponin), 2D Echocardiogram LVEF metrics, and angiographic findings.
+- **Assessment (A)**: Primary diagnoses, stent deployment status, and clinical recovery trajectory.
+- **Plan (P)**: Multi-drug pharmacotherapy schedule, diet/exercise restrictions, and outpatient review timelines.
+- **Dual-View Security**: Supports both zero-leak anonymized mode (for external audit/research) and license-verified unmasking for the attending clinician. Includes 1-click clipboard copy and native formatted printable export.
+
+---
+
+## 🌐 ABDM Ayushman Bharat HL7 FHIR R4 Bundle Exporter
+
+Conforms to National Health Authority (NHA) Ayushman Bharat Digital Mission (ABDM) and NRCES specifications:
+- Serializes complete patient charts into standard HL7 FHIR Release 4 `DocumentBundle` JSON collections.
+- Bundles standardized resources: `Patient`, `Practitioner`, `Encounter`, `Condition`, `Observation` (LVEF, Blood Pressure), `MedicationStatement`, `AllergyIntolerance`, `Composition`, and encrypted `Binary` attachments.
+- Enables seamless interoperability across Ayushman Bharat Health Information Providers (HIP) and Health Information Users (HIU).
+
+---
+
+## 💓 Live Ambulatory Cardiac Telemetry & Vitals Monitor
+
+Continuous ambulatory telemetry tracking designed for post-PCI and cardiac recovery monitoring:
+- **Vital Signs Logged**: Systolic/Diastolic BP (mmHg), Resting Heart Rate (bpm), Blood Oxygen Saturation ($SpO_2$ %), Fasting Blood Glucose (mg/dL), and Body Temperature (°F).
+- **Automated Anomaly Detection Rules**:
+  - Stage 2 Hypertension: Systolic $\ge 140$ or Diastolic $\ge 90$ mmHg.
+  - Tachycardia ($> 100$ bpm) & Bradycardia ($< 50$ bpm).
+  - Hypoxemia ($SpO_2 < 95\%$) flagging immediate dyspnea evaluation.
+  - Hyperglycemia ($> 180$ mg/dL) & Hypoglycemia ($< 70$ mg/dL).
+- Real-time notification flags attending cardiologist queue while logging timestamped entries to clinical history.
+
+---
+
+## 🇮🇳 Patient-Side Interface & Regional Bhashini Multi-Language Engine
+
+Aligned with Digital India Bhashini language localization standards, providing instant switching across 5 languages:
+- **English (en)**: International standard clinical terminology.
+- **हिन्दी (hi)**: Full Hindi translation of health card, prescriptions, and recovery AI assistant.
+- **தமிழ் (ta)**: Tamil regional healthcare interface.
+- **తెలుగు (te)**: Telugu patient recovery portal.
+- **বাংলা (bn)**: Bengali patient wellness and telemetry view.
+
+---
+
+---
+
 ## 👤 User Dashboard & ABDM Digital Health ID Card
 
 PriviCare features a comprehensive, modern **User Dashboard** accessible directly from the login screen (via **User Sign In**), the top navigation bar, and the dedicated Next.js portal (`/dashboard/user`):
@@ -193,9 +253,9 @@ PriviCare integrates verified national health identity standards for Indian heal
 
 ---
 
-## 🧪 Automated Verification & Test Suite (30 Tests)
+## 🧪 Automated Verification & Test Suite (35 Tests)
 
-PriviCare includes a comprehensive 30-point automated test harness:
+PriviCare includes a comprehensive 35-point automated test harness across all privacy, security, and clinical modules:
 
 1. **14 Adversarial Leakage & Compliance Tests** (`backend/tests/test_leakage.py`):
    - Strict HIPAA 18 Safe Harbor identifier scrubbing.
@@ -203,23 +263,28 @@ PriviCare includes a comprehensive 30-point automated test harness:
    - Verhoeff checksum algorithm correctness across valid and corrupted numbers.
    - Vector storage zero-leakage verification.
    - ABAC role-based access control (Doctor authorized vs. Researcher fail-closed).
-2. **16 Full-Stack Integration Tests** (`backend/test_endpoints.py`):
-   - Health check and benchmark retrieval.
-   - Vector X-Ray deep storage inspection.
-   - Clinician re-identification and fail-closed researcher queries.
-   - Patient enrollment and multi-report retrieval.
-   - Doctor RAG Co-Pilot clinical consultation.
-   - Live Verhoeff D5 & ABDM ABHA identity verification.
-   - Patient 24/7 Recovery AI chat with automated triage classification.
-   - Section 12 Cryptographic Shredding execution.
-   - **User Dashboard & Digital Health Card endpoint verification**.
-   - **DPDP Section 6 Consent Update & Revocation verification**.
+2. **21 Full-Stack Integration Tests** (`backend/test_endpoints.py`):
+   - Health check and benchmark retrieval (Tests 1-2).
+   - Vector X-Ray deep storage inspection (Test 3).
+   - Clinician re-identification and fail-closed researcher queries (Tests 4-8).
+   - Patient enrollment and multi-report retrieval (Tests 9-10).
+   - Doctor RAG Co-Pilot clinical consultation (Test 11).
+   - Live Verhoeff D5 & ABDM ABHA identity verification (Test 12).
+   - Patient 24/7 Recovery AI chat with automated triage classification (Test 13).
+   - Section 12 Cryptographic Shredding execution (Test 14).
+   - User Dashboard & Digital Health Card verification (Test 15).
+   - DPDP Section 6 Consent Update & Revocation verification (Test 16).
+   - **Multi-Dimensional Drug-Drug & Food Interaction Screening** (Test 17).
+   - **Clinical Drug-Allergy Sensitivity & Contraindication Screening** (Test 18).
+   - **Automated SOAP Clinical Note & Discharge Summary Generation** (Test 19).
+   - **ABDM HL7 FHIR Release 4 Collection Bundle Exporter** (Test 20).
+   - **Continuous Vitals Telemetry Logging & Cardiac Anomaly Detection** (Test 21).
 
 ```cmd
 python backend/tests/test_leakage.py
 python backend/test_endpoints.py
 ```
-*All 28 tests pass with 100% compliance.*
+*All 35 automated tests pass with 100% compliance.*
 
 ---
 

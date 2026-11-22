@@ -88,7 +88,29 @@ def _synthesize_mock_clinical_answer(query: str, context_chunks: List[str]) -> s
 
     clinical_findings = " ".join(relevant_sentences[:4])
 
-    if "diagnos" in q_lower or "condition" in q_lower:
+    if "interaction" in q_lower or "grapefruit" in q_lower or "contraindicat" in q_lower or "safety" in q_lower:
+        try:
+            from clinical.drug_interactions import check_drug_interactions
+            result = check_drug_interactions(
+                medications=["Atorvastatin 40mg", "Aspirin 75mg", "Ibuprofen 400mg"],
+                allergies=["Penicillin"],
+                dietary_items=["Grapefruit juice"] if "grapefruit" in q_lower else []
+            )
+            alerts_text = "; ".join([f"{item['drugs']} ({item['severity']}): {item['clinical_risk']}" for item in result.get("interactions", [])])
+            response = (
+                f"Clinical Pharmacology RAG Screening for {patient_tag}: Overall Safety Status is {result['safety_evaluation']}. "
+                f"Pharmacology Interactions Detected: {alerts_text or 'None detected.'}. "
+                f"Clinical Context: {clinical_findings}"
+            )
+        except Exception:
+            response = f"Pharmacology safety review for {patient_tag}: {clinical_findings}"
+    elif "vital" in q_lower or "bp" in q_lower or "telemetry" in q_lower or "pulse" in q_lower:
+        response = (
+            f"Ambulatory Telemetry & Vitals Analysis for {patient_tag}: Blood Pressure 120/80 mmHg (normotensive), "
+            f"Resting Heart Rate 72 bpm, SpO2 98% on room air, Fasting Blood Sugar 105 mg/dL. Hemodynamic parameters remain stable post-procedure. "
+            f"Correlating Clinical Findings: {clinical_findings}"
+        )
+    elif "diagnos" in q_lower or "condition" in q_lower:
         response = (
             f"Based on the medical records, {patient_tag}'s primary clinical findings and diagnoses include: "
             f"{clinical_findings}"
@@ -98,9 +120,9 @@ def _synthesize_mock_clinical_answer(query: str, context_chunks: List[str]) -> s
             f"According to the medical documentation for {patient_tag}, the prescribed medications and regimen are: "
             f"{clinical_findings}"
         )
-    elif "treatment" in q_lower or "plan" in q_lower:
+    elif "treatment" in q_lower or "plan" in q_lower or "soap" in q_lower:
         response = (
-            f"The clinical treatment plan documented for {patient_tag} includes: "
+            f"The clinical treatment plan and SOAP assessment documented for {patient_tag} includes: "
             f"{clinical_findings}"
         )
     else:

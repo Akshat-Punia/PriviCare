@@ -449,18 +449,34 @@ def get_app_html() -> str:
         </button>
       </div>
 
-      <!-- Active Patient Selector Dropdown, Patient Search & Add Patient Button -->
-      <div class="flex items-center gap-2">
+      <!-- Active Patient Selector Dropdown, Patient Search, Clinical Tools & Add Patient Button -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <button type="button" onclick="openSoapSummaryModal()"
+          class="px-2.5 py-1.5 rounded-lg border border-indigo-200 dark:border-indigo-800 bg-indigo-50/70 dark:bg-indigo-950/40 hover:bg-indigo-100 text-indigo-900 dark:text-indigo-200 text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-sm"
+          title="Generate Accredited SOAP Clinical Summary">
+          <i class="fa-solid fa-file-invoice text-indigo-600"></i> <span class="hidden sm:inline">SOAP Note</span>
+        </button>
+        <button type="button" onclick="openInteractionsModal()"
+          class="px-2.5 py-1.5 rounded-lg border border-amber-200 dark:border-amber-800 bg-amber-50/70 dark:bg-amber-950/40 hover:bg-amber-100 text-amber-900 dark:text-amber-200 text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-sm"
+          title="Check Drug-Drug & Drug-Allergy Interactions">
+          <i class="fa-solid fa-triangle-exclamation text-amber-600"></i> <span class="hidden sm:inline">Drug Safety</span>
+        </button>
+        <button type="button" onclick="openFhirExportModal()"
+          class="px-2.5 py-1.5 rounded-lg border border-teal-200 dark:border-teal-800 bg-teal-50/70 dark:bg-teal-950/40 hover:bg-teal-100 text-teal-900 dark:text-teal-200 text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-sm"
+          title="Export Ayushman Bharat HL7 FHIR R4 Bundle">
+          <i class="fa-solid fa-code text-teal-600"></i> <span class="hidden sm:inline">FHIR R4</span>
+        </button>
+
         <button type="button" onclick="openSearchPatientModal()"
           class="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium flex items-center gap-2 shadow-sm transition-all"
           title="Search patients by Name, UHID, ABHA, Aadhaar, Diagnosis (Ctrl+K)">
           <i class="fa-solid fa-magnifying-glass text-blue-600"></i>
-          <span>Search Patient</span>
+          <span>Search</span>
           <kbd class="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono text-slate-400 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded">Ctrl+K</kbd>
         </button>
 
         <select id="active-patient-select" onchange="onPatientSelectionChange()"
-          class="max-w-[210px] sm:max-w-xs px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs font-semibold focus:ring-2 focus:ring-blue-500 outline-none truncate">
+          class="max-w-[180px] sm:max-w-xs px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs font-semibold focus:ring-2 focus:ring-blue-500 outline-none truncate">
           <option value="UHID-982143">Rajesh Sharma (UHID-982143) - Cardiology</option>
           <option value="UHID-447219">Priya Patel (UHID-447219) - Oncology</option>
           <option value="UHID-551029">Amit Kumar (UHID-551029) - Pulmonology</option>
@@ -478,34 +494,55 @@ def get_app_html() -> str:
       <div class="flex items-center gap-2 flex-wrap">
         <button id="pnav-overview" onclick="switchPatientSubtab('overview')"
           class="px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 bg-teal-600 text-white shadow-sm">
-          <i class="fa-solid fa-house-chimney-medical"></i> 1. Health Card & Overview
+          <i class="fa-solid fa-house-chimney-medical"></i> <span id="lbl-pnav-overview">1. Health Card & Overview</span>
         </button>
         <button id="pnav-meds" onclick="switchPatientSubtab('meds')"
           class="px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
-          <i class="fa-solid fa-pills"></i> 2. Prescriptions & Schedule
+          <i class="fa-solid fa-pills"></i> <span id="lbl-pnav-meds">2. Prescriptions & Schedule</span>
         </button>
         <button id="pnav-vault" onclick="switchPatientSubtab('vault')"
           class="px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
-          <i class="fa-solid fa-folder-open"></i> 3. Medical Records Vault
+          <i class="fa-solid fa-folder-open"></i> <span id="lbl-pnav-vault">3. Medical Records Vault</span>
         </button>
         <button id="pnav-chat" onclick="switchPatientSubtab('chat')"
           class="px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
-          <i class="fa-solid fa-comment-medical"></i> 4. Recovery AI Assistant
+          <i class="fa-solid fa-comment-medical"></i> <span id="lbl-pnav-chat">4. Recovery AI Assistant</span>
         </button>
         <button id="pnav-dpdp" onclick="switchPatientSubtab('dpdp')"
           class="px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
-          <i class="fa-solid fa-shield-halved"></i> 5. DPDP Privacy & Consents
+          <i class="fa-solid fa-shield-halved"></i> <span id="lbl-pnav-dpdp">5. DPDP Privacy & Consents</span>
         </button>
       </div>
 
-      <!-- Patient Account Selector in Patient View -->
-      <div class="flex items-center gap-2 text-xs">
-        <span class="text-slate-500 font-medium">Patient Account:</span>
+      <!-- Regional Language Switcher, Vitals Button & Patient Account Selector -->
+      <div class="flex items-center gap-2.5 flex-wrap text-xs">
+        <button type="button" onclick="openLogVitalsModal()"
+          class="px-3 py-1.5 rounded-lg border border-rose-300 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 font-semibold flex items-center gap-1.5 hover:bg-rose-100 shadow-sm transition-all">
+          <i class="fa-solid fa-heart-pulse text-rose-500"></i> + Log Vitals
+        </button>
+        <button type="button" onclick="openInteractionsModal()"
+          class="px-2.5 py-1.5 rounded-lg border border-amber-300 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-200 font-semibold flex items-center gap-1.5 hover:bg-amber-100 shadow-sm transition-all"
+          title="Check Drug Interactions">
+          <i class="fa-solid fa-triangle-exclamation text-amber-600"></i> Drug Safety
+        </button>
+
+        <div class="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-teal-50/70 dark:bg-slate-800 border border-teal-200 dark:border-slate-700">
+          <i class="fa-solid fa-globe text-teal-600"></i>
+          <select id="user-language-select" onchange="onLanguageChange(this.value)"
+            class="bg-transparent text-xs font-semibold text-teal-900 dark:text-teal-200 outline-none cursor-pointer">
+            <option value="en" selected>English</option>
+            <option value="hi">हिंदी (Hindi)</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+            <option value="te">తెలుగు (Telugu)</option>
+            <option value="bn">বাংলা (Bengali)</option>
+          </select>
+        </div>
+
         <select id="patient-portal-select" onchange="onPatientPortalUserChange(this.value)"
           class="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs font-semibold focus:ring-2 focus:ring-teal-500 outline-none">
-          <option value="UHID-982143">Rajesh Sharma (UHID-982143)</option>
-          <option value="UHID-447219">Priya Patel (UHID-447219)</option>
-          <option value="UHID-551029">Amit Kumar (UHID-551029)</option>
+          <option value="UHID-982143">Rajesh Sharma</option>
+          <option value="UHID-447219">Priya Patel</option>
+          <option value="UHID-551029">Amit Kumar</option>
         </select>
       </div>
     </div>
@@ -1050,6 +1087,48 @@ def get_app_html() -> str:
               <div class="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-1 pt-1">
                 <i class="fa-solid fa-circle-check"></i> Verhoeff D5 Checksum Validated
               </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Vitals & Cardiac Telemetry Monitor -->
+        <div class="glass-card rounded-2xl p-6 border border-slate-200 dark:border-slate-800 space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
+            <div>
+              <h3 class="font-bold text-sm text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                <i class="fa-solid fa-heart-pulse text-rose-500"></i> <span id="lbl-vitals-title">Live Cardiac Telemetry & Vitals Monitor</span>
+              </h3>
+              <p class="text-[11px] text-slate-500">Continuous post-discharge ambulatory hemodynamic monitoring</p>
+            </div>
+            <button onclick="openLogVitalsModal()"
+              class="px-3 py-1.5 bg-rose-500 hover:bg-rose-600 text-white rounded-xl text-xs font-semibold shadow-sm flex items-center gap-1.5 transition-all">
+              <i class="fa-solid fa-plus"></i> + Log Today's Reading
+            </button>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4" id="user-dash-vitals-grid">
+            <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/40">
+              <div class="text-[11px] font-semibold text-slate-500">Blood Pressure</div>
+              <div class="text-xl font-bold text-slate-900 dark:text-slate-100 mt-1" id="vital-bp">128/82 <span class="text-xs font-normal text-slate-400">mmHg</span></div>
+              <span class="inline-block mt-1 text-[10px] font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-950 px-2 py-0.5 rounded">Optimal</span>
+            </div>
+
+            <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/40">
+              <div class="text-[11px] font-semibold text-slate-500">Resting Heart Rate</div>
+              <div class="text-xl font-bold text-slate-900 dark:text-slate-100 mt-1" id="vital-hr">68 <span class="text-xs font-normal text-slate-400">bpm</span></div>
+              <span class="inline-block mt-1 text-[10px] font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-950 px-2 py-0.5 rounded">Sinus Rhythm</span>
+            </div>
+
+            <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/40">
+              <div class="text-[11px] font-semibold text-slate-500">Blood Oxygen (SpO2)</div>
+              <div class="text-xl font-bold text-slate-900 dark:text-slate-100 mt-1" id="vital-spo2">98 <span class="text-xs font-normal text-slate-400">%</span></div>
+              <span class="inline-block mt-1 text-[10px] font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-950 px-2 py-0.5 rounded">Normal</span>
+            </div>
+
+            <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/40">
+              <div class="text-[11px] font-semibold text-slate-500">Fasting Glucose</div>
+              <div class="text-xl font-bold text-slate-900 dark:text-slate-100 mt-1" id="vital-sugar">105 <span class="text-xs font-normal text-slate-400">mg/dL</span></div>
+              <span class="inline-block mt-1 text-[10px] font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-950 px-2 py-0.5 rounded">Euglycemic</span>
             </div>
           </div>
         </div>
@@ -2144,6 +2223,161 @@ Scanning vector storage...
     </div>
   </div>
 
+  <!-- ==================== MODAL 1: SOAP CLINICAL DISCHARGE SUMMARY ==================== -->
+  <div id="modal-soap-summary" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="max-w-3xl w-full glass-card rounded-2xl p-6 shadow-2xl border border-slate-300 dark:border-slate-700 space-y-4 max-h-[85vh] flex flex-col">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-file-invoice text-indigo-600 text-lg"></i>
+          <div>
+            <h3 class="font-bold text-base">Accredited SOAP Clinical Discharge Summary</h3>
+            <p class="text-[11px] text-slate-500">Subjective • Objective • Assessment • Plan (Grounded Clinical RAG)</p>
+          </div>
+        </div>
+        <button onclick="closeSoapSummaryModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+
+      <div class="flex-1 overflow-y-auto p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 font-mono text-xs text-slate-800 dark:text-slate-200 whitespace-pre-wrap leading-relaxed" id="soap-summary-content">
+        Loading SOAP Clinical Discharge Summary...
+      </div>
+
+      <div class="flex items-center justify-between pt-3 border-t border-slate-200 dark:border-slate-800 text-xs">
+        <div class="flex items-center gap-2">
+          <input type="checkbox" id="soap-reidentify-check" onchange="generateSoapSummary(this.checked)" class="w-4 h-4 text-indigo-600 rounded">
+          <label for="soap-reidentify-check" class="text-slate-600 dark:text-slate-400 font-medium">Re-identify with Clinician License (Unmask PHI for Official Hospital Record)</label>
+        </div>
+        <div class="flex gap-2">
+          <button onclick="copySoapSummary()" class="px-3.5 py-2 border border-slate-300 dark:border-slate-700 rounded-xl font-semibold hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-1.5">
+            <i class="fa-solid fa-copy"></i> Copy Note
+          </button>
+          <button onclick="printSoapSummary()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold flex items-center gap-1.5 shadow">
+            <i class="fa-solid fa-print"></i> Print / Export
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 2: DRUG-DRUG & DRUG-ALLERGY INTERACTION ENGINE ==================== -->
+  <div id="modal-drug-interactions" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="max-w-2xl w-full glass-card rounded-2xl p-6 shadow-2xl border border-slate-300 dark:border-slate-700 space-y-4 max-h-[85vh] flex flex-col">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-triangle-exclamation text-amber-500 text-lg"></i>
+          <div>
+            <h3 class="font-bold text-base">Clinical Drug Safety & Allergy Interaction Auditor</h3>
+            <p class="text-[11px] text-slate-500">Cross-screening active prescriptions against food and documented allergies</p>
+          </div>
+        </div>
+        <button onclick="closeInteractionsModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+
+      <div class="flex-1 overflow-y-auto space-y-3" id="drug-interactions-content">
+        Loading pharmacology evaluation...
+      </div>
+
+      <div class="flex justify-end pt-2 border-t border-slate-200 dark:border-slate-800">
+        <button onclick="closeInteractionsModal()" class="px-4 py-2 bg-slate-200 dark:bg-slate-800 rounded-xl text-xs font-semibold">
+          Close Safety Auditor
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 3: AYUSHMAN BHARAT HL7 FHIR R4 EXPORTER ==================== -->
+  <div id="modal-fhir-bundle" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="max-w-3xl w-full glass-card rounded-2xl p-6 shadow-2xl border border-slate-300 dark:border-slate-700 space-y-4 max-h-[85vh] flex flex-col">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-code text-teal-600 text-lg"></i>
+          <div>
+            <h3 class="font-bold text-base">Ayushman Bharat HL7 FHIR Release 4 Bundle Export</h3>
+            <p class="text-[11px] text-slate-500">ABDM-compliant JSON document collection (Patient, Condition, MedicationStatement, Observation)</p>
+          </div>
+        </div>
+        <button onclick="closeFhirExportModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+
+      <div class="flex-1 overflow-y-auto p-4 rounded-xl bg-slate-900 border border-slate-800 font-mono text-[11px] text-teal-300 whitespace-pre-wrap leading-relaxed" id="fhir-json-content">
+        Generating HL7 FHIR R4 Bundle...
+      </div>
+
+      <div class="flex items-center justify-between pt-2 border-t border-slate-200 dark:border-slate-800 text-xs">
+        <span class="text-slate-500">Schema: NRCES / NDHM FHIR DocumentBundle</span>
+        <div class="flex gap-2">
+          <button onclick="downloadFhirJson()" class="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-xl font-semibold flex items-center gap-1.5 shadow">
+            <i class="fa-solid fa-download"></i> Download FHIR JSON
+          </button>
+          <button onclick="closeFhirExportModal()" class="px-4 py-2 bg-slate-200 dark:bg-slate-800 rounded-xl font-semibold">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 4: RECORD VITALS TELEMETRY ==================== -->
+  <div id="modal-log-vitals" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="max-w-md w-full glass-card rounded-2xl p-6 shadow-2xl border border-slate-300 dark:border-slate-700 space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-heart-pulse text-rose-500 text-lg"></i>
+          <div>
+            <h3 class="font-bold text-base">Log Ambulatory Vitals Reading</h3>
+            <p class="text-[11px] text-slate-500">Real-time cardiac hemodynamic telemetry</p>
+          </div>
+        </div>
+        <button onclick="closeLogVitalsModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+
+      <form onsubmit="submitVitalsReading(event); return false;" class="space-y-3 text-xs">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">Systolic BP (mmHg)</label>
+            <input type="number" id="input-sys-bp" required value="126" min="60" max="250"
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 outline-none focus:ring-2 focus:ring-rose-500">
+          </div>
+          <div>
+            <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">Diastolic BP (mmHg)</label>
+            <input type="number" id="input-dia-bp" required value="82" min="40" max="150"
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 outline-none focus:ring-2 focus:ring-rose-500">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">Heart Rate (BPM)</label>
+            <input type="number" id="input-hr" required value="72" min="30" max="220"
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 outline-none focus:ring-2 focus:ring-rose-500">
+          </div>
+          <div>
+            <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">SpO2 Oxygen (%)</label>
+            <input type="number" id="input-spo2" required value="98" min="70" max="100"
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 outline-none focus:ring-2 focus:ring-rose-500">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">Temperature (°F)</label>
+            <input type="number" step="0.1" id="input-temp" value="98.6"
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 outline-none focus:ring-2 focus:ring-rose-500">
+          </div>
+          <div>
+            <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">Blood Sugar (mg/dL)</label>
+            <input type="number" id="input-sugar" value="105"
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 outline-none focus:ring-2 focus:ring-rose-500">
+          </div>
+        </div>
+
+        <button type="submit"
+          class="w-full py-2.5 bg-rose-500 hover:bg-rose-600 text-white font-semibold rounded-xl text-xs shadow transition-all flex items-center justify-center gap-2">
+          <i class="fa-solid fa-heart-pulse"></i> Submit & Analyze Vitals
+        </button>
+      </form>
+    </div>
+  </div>
+
   <!-- ==================== JAVASCRIPT LOGIC ==================== -->
   <script>
     // State management
@@ -2789,9 +3023,9 @@ Scanning vector storage...
 
     async function executeCryptoShredding() {
       const confirmed = confirm(
-        "DPDP ACT 2023 SECTION 12 RIGHT TO ERASURE\n\n" +
-        "Are you sure you want to permanently crypto-shred all encryption keys, scoped HMAC salts, and pseudonym mappings for this patient session?\n\n" +
-        "This action is irreversible and renders all stored vector embeddings and historical transcripts mathematically unrecoverable."
+        `DPDP ACT 2023 SECTION 12 RIGHT TO ERASURE\n\n` +
+        `Are you sure you want to permanently crypto-shred all encryption keys, scoped HMAC salts, and pseudonym mappings for this patient session?\n\n` +
+        `This action is irreversible and renders all stored vector embeddings and historical transcripts mathematically unrecoverable.`
       );
       if (!confirmed) return;
 
@@ -4096,6 +4330,275 @@ Scanning vector storage...
       } else {
         html.classList.add("dark");
         icon.className = "fa-solid fa-sun text-amber-400";
+      }
+    }
+    // -------------------------------------------------------------------------
+    // Regional Multi-Language Engine (Bhashini Standards)
+    // -------------------------------------------------------------------------
+    const UI_TRANSLATIONS = {
+      en: {
+        overview: "1. Health Card & Overview",
+        meds: "2. Prescriptions & Schedule",
+        vault: "3. Medical Records Vault",
+        chat: "4. Recovery AI Assistant",
+        dpdp: "5. DPDP Privacy & Consents",
+        vitals_title: "Live Cardiac Telemetry & Vitals Monitor",
+        greeting: "Hello Rajesh! I am your 24/7 personal PriviCare health assistant. How are you feeling today?"
+      },
+      hi: {
+        overview: "1. स्वास्थ्य कार्ड और विवरण",
+        meds: "2. दैनिक दवाएं और समय सारणी",
+        vault: "3. मेडिकल रिकॉर्ड्स वॉल्ट",
+        chat: "4. रिकवरी एआई सहायक",
+        dpdp: "5. गोपनीयता और डीपीईपी अधिकार",
+        vitals_title: "लाइव कार्डियक टेलीमेट्री और वाइटल्स मॉनिटर",
+        greeting: "नमस्ते राजेश! मैं आपका 24/7 व्यक्तिगत प्रिविकेयर स्वास्थ्य सहायक हूँ। आज आप कैसा महसूस कर रहे हैं?"
+      },
+      ta: {
+        overview: "1. சுகாதார அட்டை & கண்ணோட்டம்",
+        meds: "2. மருந்து அட்டவணை",
+        vault: "3. மருத்துவ ஆவணங்கள்",
+        chat: "4. மீட்பு AI உதவியாளர்",
+        dpdp: "5. தனியுரிமை உரிமைகள்",
+        vitals_title: "நேரடி இதய டெலிமெட்ரி & முக்கிய அறிகுறிகள்",
+        greeting: "வணக்கம் ராஜேஷ்! நான் உங்கள் தனிப்பயனாக்கப்பட்ட பிரிவிகேர் சுகாதார உதவியாளர்."
+      },
+      te: {
+        overview: "1. ఆరోగ్య కార్డు & అవలోకనం",
+        meds: "2. ఔషధాల ప్రణాళిక",
+        vault: "3. వైద్య రికార్డులు",
+        chat: "4. రికవరీ AI అసిస్టెంట్",
+        dpdp: "5. గోప్యతా హక్కులు",
+        vitals_title: "లైవ్ కార్డియాక్ టెలిమెట్రీ & వైటల్స్",
+        greeting: "నమస్తే రాజేష్! నేను మీ ప్రివికేర్ రికవరీ అసిస్టెంట్."
+      },
+      bn: {
+        overview: "1. স্বাস্থ্য কার্ড ও বিবরণ",
+        meds: "2. ওষুধের সময়সূচী",
+        vault: "3. মেডিকেল রেকর্ড ভল্ট",
+        chat: "4. রিকভারি এআই সহকারী",
+        dpdp: "5. গোপনীয়তা অধিকার",
+        vitals_title: "লাইভ কার্ডিয়াক টেলিমেট্রি ও ভাইটালস",
+        greeting: "নমস্কার রাজেশ! আমি আপনার প্রিভिकेয়ার স্বাস্থ্য সহকারী।"
+      }
+    };
+
+    function onLanguageChange(lang) {
+      const t = UI_TRANSLATIONS[lang] || UI_TRANSLATIONS.en;
+      const elOverview = document.getElementById("lbl-pnav-overview");
+      if (elOverview) elOverview.textContent = t.overview;
+      const elMeds = document.getElementById("lbl-pnav-meds");
+      if (elMeds) elMeds.textContent = t.meds;
+      const elVault = document.getElementById("lbl-pnav-vault");
+      if (elVault) elVault.textContent = t.vault;
+      const elChat = document.getElementById("lbl-pnav-chat");
+      if (elChat) elChat.textContent = t.chat;
+      const elDpdp = document.getElementById("lbl-pnav-dpdp");
+      if (elDpdp) elDpdp.textContent = t.dpdp;
+      const elVitals = document.getElementById("lbl-vitals-title");
+      if (elVitals) elVitals.textContent = t.vitals_title;
+    }
+
+    // -------------------------------------------------------------------------
+    // SOAP Clinical Summary Handlers
+    // -------------------------------------------------------------------------
+    async function openSoapSummaryModal() {
+      const modal = document.getElementById("modal-soap-summary");
+      if (modal) modal.classList.remove("hidden");
+      await generateSoapSummary(false);
+    }
+
+    function closeSoapSummaryModal() {
+      const modal = document.getElementById("modal-soap-summary");
+      if (modal) modal.classList.add("hidden");
+    }
+
+    let _lastSoapText = "";
+    async function generateSoapSummary(reIdentify) {
+      const content = document.getElementById("soap-summary-content");
+      if (!content) return;
+      content.textContent = "Synthesizing clinical notes, lab investigations, and stent intervention findings with Clinical RAG...";
+      try {
+        const res = await fetch(`/api/clinical/patients/${selectedUhid}/generate-summary`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ re_identify: reIdentify })
+        });
+        const data = await res.json();
+        _lastSoapText = data.summary_markdown || "No summary available.";
+        content.textContent = _lastSoapText;
+      } catch (err) {
+        content.textContent = "Error generating SOAP summary: " + err.message;
+      }
+    }
+
+    function copySoapSummary() {
+      if (_lastSoapText) {
+        navigator.clipboard.writeText(_lastSoapText);
+        alert("✅ SOAP Clinical Summary copied to clipboard!");
+      }
+    }
+
+    function printSoapSummary() {
+      const win = window.open("", "_blank");
+      win.document.write(`<pre style="font-family: monospace; white-space: pre-wrap; padding: 24px;">${_lastSoapText}</pre>`);
+      win.document.close();
+      win.print();
+    }
+
+    // -------------------------------------------------------------------------
+    // Drug-Drug & Drug-Allergy Interaction Handlers
+    // -------------------------------------------------------------------------
+    async function openInteractionsModal() {
+      const modal = document.getElementById("modal-drug-interactions");
+      if (modal) modal.classList.remove("hidden");
+      const content = document.getElementById("drug-interactions-content");
+      if (!content) return;
+      content.innerHTML = "<div class='text-xs text-slate-500 p-4'>Screening active prescriptions against pharmacology rules...</div>";
+
+      try {
+        const patient = cachedPatients[selectedUhid] || { current_medications: ["Atorvastatin 40mg", "Aspirin 75mg", "Telmisartan 40mg", "Metoprolol 25mg"], allergies: ["Penicillin"] };
+        const res = await fetch("/api/clinical/check-interactions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            medications: patient.current_medications || ["Atorvastatin 40mg", "Aspirin 75mg", "Ibuprofen 400mg"],
+            allergies: patient.allergies || ["Penicillin"],
+            dietary_items: ["Grapefruit juice", "Potassium salt substitute"]
+          })
+        });
+        const data = await res.json();
+        
+        let html = `<div class="p-3 rounded-xl ${data.safety_evaluation === 'HIGH_RISK' ? 'bg-rose-50 text-rose-800 border border-rose-200' : 'bg-emerald-50 text-emerald-800 border border-emerald-200'} text-xs font-semibold flex items-center justify-between">
+          <span>Overall Safety: ${data.safety_evaluation}</span>
+          <span>Interactions Found: ${data.interactions_found_count}</span>
+        </div>`;
+
+        if (data.interactions && data.interactions.length > 0) {
+          html += "<div class='space-y-2 mt-3'>";
+          data.interactions.forEach(item => {
+            html += `<div class="p-3 rounded-xl border border-amber-200 bg-amber-50/50 text-xs space-y-1">
+              <div class="font-bold text-amber-900 flex items-center gap-1.5"><i class="fa-solid fa-triangle-exclamation text-amber-600"></i> ${item.drugs} [${item.severity}]</div>
+              <div class="text-amber-800 text-[11px]">${item.clinical_risk}</div>
+              <div class="text-slate-600 dark:text-slate-400 text-[11px]"><strong>Recommendation:</strong> ${item.recommendation}</div>
+            </div>`;
+          });
+          html += "</div>";
+        }
+
+        if (data.allergy_alerts && data.allergy_alerts.length > 0) {
+          html += "<div class='space-y-2 mt-3'>";
+          data.allergy_alerts.forEach(item => {
+            html += `<div class="p-3 rounded-xl border border-rose-200 bg-rose-50 text-xs space-y-1">
+              <div class="font-bold text-rose-900"><i class="fa-solid fa-circle-exclamation text-rose-600 mr-1"></i> Allergy Alert: ${item.offending_drug} (${item.allergen})</div>
+              <div class="text-rose-800 text-[11px]">${item.clinical_risk}</div>
+            </div>`;
+          });
+          html += "</div>";
+        }
+
+        content.innerHTML = html;
+      } catch (err) {
+        content.innerHTML = `<div class="p-4 text-xs text-rose-500">Error screening interactions: ${err.message}</div>`;
+      }
+    }
+
+    function closeInteractionsModal() {
+      const modal = document.getElementById("modal-drug-interactions");
+      if (modal) modal.classList.add("hidden");
+    }
+
+    // -------------------------------------------------------------------------
+    // HL7 FHIR R4 Exporter Handlers
+    // -------------------------------------------------------------------------
+    let _lastFhirJson = "{}";
+    async function openFhirExportModal() {
+      const modal = document.getElementById("modal-fhir-bundle");
+      if (modal) modal.classList.remove("hidden");
+      const content = document.getElementById("fhir-json-content");
+      if (!content) return;
+      content.textContent = "Serializing patient chart into HL7 FHIR R4 JSON DocumentBundle...";
+
+      try {
+        const res = await fetch(`/api/clinical/patients/${selectedUhid}/fhir-bundle`);
+        const bundle = await res.json();
+        _lastFhirJson = JSON.stringify(bundle, null, 2);
+        content.textContent = _lastFhirJson;
+      } catch (err) {
+        content.textContent = "Error exporting FHIR bundle: " + err.message;
+      }
+    }
+
+    function closeFhirExportModal() {
+      const modal = document.getElementById("modal-fhir-bundle");
+      if (modal) modal.classList.add("hidden");
+    }
+
+    function downloadFhirJson() {
+      const blob = new Blob([_lastFhirJson], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `FHIR_R4_Bundle_${selectedUhid}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // -------------------------------------------------------------------------
+    // Vitals Telemetry Handlers
+    // -------------------------------------------------------------------------
+    function openLogVitalsModal() {
+      const modal = document.getElementById("modal-log-vitals");
+      if (modal) modal.classList.remove("hidden");
+    }
+
+    function closeLogVitalsModal() {
+      const modal = document.getElementById("modal-log-vitals");
+      if (modal) modal.classList.add("hidden");
+    }
+
+    async function submitVitalsReading(e) {
+      if (e) e.preventDefault();
+      const sys = parseInt(document.getElementById("input-sys-bp").value) || 120;
+      const dia = parseInt(document.getElementById("input-dia-bp").value) || 80;
+      const hr = parseInt(document.getElementById("input-hr").value) || 72;
+      const spo2 = parseInt(document.getElementById("input-spo2").value) || 98;
+      const temp = parseFloat(document.getElementById("input-temp").value) || 98.6;
+      const sugar = parseInt(document.getElementById("input-sugar").value) || 100;
+
+      try {
+        const res = await fetch(`/api/clinical/patients/${selectedUhid}/vitals`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            systolic_bp: sys,
+            diastolic_bp: dia,
+            heart_rate: hr,
+            spo2: spo2,
+            temperature: temp,
+            blood_sugar: sugar
+          })
+        });
+        const data = await res.json();
+        closeLogVitalsModal();
+
+        // Update UI
+        const bpEl = document.getElementById("vital-bp");
+        if (bpEl) bpEl.innerHTML = `${sys}/${dia} <span class="text-xs font-normal text-slate-400">mmHg</span>`;
+        const hrEl = document.getElementById("vital-hr");
+        if (hrEl) hrEl.innerHTML = `${hr} <span class="text-xs font-normal text-slate-400">bpm</span>`;
+        const spo2El = document.getElementById("vital-spo2");
+        if (spo2El) spo2El.innerHTML = `${spo2} <span class="text-xs font-normal text-slate-400">%</span>`;
+        const sugarEl = document.getElementById("vital-sugar");
+        if (sugarEl) sugarEl.innerHTML = `${sugar} <span class="text-xs font-normal text-slate-400">mg/dL</span>`;
+
+        if (data.vital_entry && data.vital_entry.alerts && data.vital_entry.alerts.length > 0) {
+          alert(`⚠️ TELEMETRY RISK ALERT:\n\n${data.vital_entry.alerts.join(`\n`)}\n\nAttending Cardiologist Dr. Sarah Johnson's queue has been notified.`);
+        } else {
+          alert("✅ Vitals logged successfully! Hemodynamic readings are optimal.");
+        }
+      } catch (err) {
+        alert("Failed to submit vitals: " + err.message);
       }
     }
   </script>

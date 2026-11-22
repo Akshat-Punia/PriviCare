@@ -20,7 +20,12 @@ from clinical.patient_records import (
     add_patient_chat_entry,
     mark_chat_reviewed,
     add_patient_record,
+    get_patient_vitals,
+    record_patient_vitals,
+    generate_soap_discharge_summary,
 )
+from clinical.drug_interactions import check_drug_interactions
+from clinical.fhir_converter import export_patient_to_fhir_bundle
 from rag.pipeline import rag_pipeline
 
 router = APIRouter(prefix="/api/clinical", tags=["clinical"])
@@ -489,5 +494,79 @@ def update_user_consent(req: UpdateConsentRequest) -> Dict[str, Any]:
         "status": "success",
         "message": f"Consent for {req.hospital_name} ({req.department}) recorded.",
         "consent": new_item
+    }
+
+
+# ---------------------------------------------------------------------------
+# Advanced Clinical Endpoints (Drug Safety, FHIR, SOAP, Vitals)
+# ---------------------------------------------------------------------------
+class CheckInteractionsRequest(BaseModel):
+    medications: List[str]
+    allergies: Optional[List[str]] = None
+    dietary_items: Optional[List[str]] = None
+
+
+class RecordVitalsRequest(BaseModel):
+    systolic_bp: int = 120
+    diastolic_bp: int = 80
+    heart_rate: int = 72
+    spo2: int = 98
+    temperature: Optional[float] = 98.6
+    blood_sugar: Optional[int] = 100
+
+
+class GenerateSummaryRequest(BaseModel):
+    re_identify: Optional[bool] = False
+
+
+@router.post("/check-interactions")
+def check_interactions_endpoint(req: CheckInteractionsRequest) -> Dict[str, Any]:
+    """Screen medications against known pharmacology rules, food contraindications, and allergies."""
+    return check_drug_interactions(
+        medications=req.medications,
+        allergies=req.allergies,
+        dietary_items=req.dietary_items
+    )
+
+
+@router.post("/patients/{uhid}/generate-summary")
+def generate_summary_endpoint(uhid: str, req: Optional[GenerateSummaryRequest] = None) -> Dict[str, Any]:
+    """Generate accredited SOAP clinical discharge summary for a patient."""
+    re_id = req.re_identify if req else False
+    res = generate_soap_discharge_summary(uhid, re_identify=re_id)
+    if res.get("status") == "error":
+        raise HTTPException(status_code=404, detail=res.get("message"))
+    return res
+
+
+@router.get("/patients/{uhid}/fhir-bundle")
+def get_fhir_bundle_endpoint(uhid: str, pseudonymized: Optional[bool] = False) -> Dict[str, Any]:
+    """Export patient chart as an official HL7 FHIR Release 4 JSON collection bundle."""
+    patient = get_patient_profile(uhid)
+    if not patient:
+        raise HTTPException(status_code=404, detail="Patient profile not found.")
+    return export_patient_to_fhir_bundle(patient, pseudonymized=pseudonymized)
+
+
+@router.get("/patients/{uhid}/vitals")
+def get_vitals_endpoint(uhid: str) -> List[Dict[str, Any]]:
+    """Retrieve full vitals telemetry log for a patient."""
+    patient = get_patient_profile(uhid)
+    if not patient:
+        raise HTTPException(status_code=404, detail="Patient profile not found.")
+    return get_patient_vitals(uhid)
+
+
+@router.post("/patients/{uhid}/vitals")
+def record_vitals_endpoint(uhid: str, req: RecordVitalsRequest) -> Dict[str, Any]:
+    """Record new vitals reading, detect anomalies, and flag clinical risks."""
+    patient = get_patient_profile(uhid)
+    if not patient:
+        raise HTTPException(status_code=404, detail="Patient profile not found.")
+    res = record_patient_vitals(uhid, req.dict())
+    return {
+        "status": "success",
+        "uhid": uhid,
+        "vital_entry": res
     }
 

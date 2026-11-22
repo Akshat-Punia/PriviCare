@@ -20,7 +20,7 @@ a = Analysis(
         'main', 'web_ui', 'config',
         'routes', 'routes.upload', 'routes.chat', 'routes.privacy', 'routes.clinical', 'routes.audit',
         'auth', 'auth.router', 'auth.models',
-        'clinical', 'clinical.patient_records',
+        'clinical', 'clinical.patient_records', 'clinical.drug_interactions', 'clinical.fhir_converter',
         'anonymization', 'anonymization.presidio_engine', 'anonymization.pii_vault', 'anonymization.pseudonymizer',
         'ocr_tools', 'ocr_tools.pii_anonymizer', 'ocr_tools.ocr_engine', 'ocr_tools.extract_and_anonymize',
         'rag', 'rag.embeddings', 'rag.pipeline', 'rag.retrieval', 'rag.vector_db',

@@ -21,6 +21,14 @@ from routes.clinical import (
     get_user_dashboard,
     update_user_consent,
     UpdateConsentRequest,
+    check_interactions_endpoint,
+    CheckInteractionsRequest,
+    generate_summary_endpoint,
+    GenerateSummaryRequest,
+    get_fhir_bundle_endpoint,
+    get_vitals_endpoint,
+    record_vitals_endpoint,
+    RecordVitalsRequest,
 )
 
 print("[TEST 1] health_check", flush=True)
@@ -148,4 +156,51 @@ print("Consent Updated:", c_update["message"], "| Granted:", c_update["consent"]
 assert c_update["status"] == "success"
 assert c_update["consent"]["granted"] is False
 
-print("\n>>> ALL 16 INTEGRATION TESTS PASSED PERFECTLY! <<<", flush=True)
+print("\n[TEST 17] check_interactions (Drug-Drug & Drug-Food Interaction Engine)", flush=True)
+inter_res = check_interactions_endpoint(CheckInteractionsRequest(
+    medications=["Atorvastatin 40mg", "Aspirin 75mg", "Ibuprofen 400mg"],
+    dietary_items=["Grapefruit juice", "Low sodium salt"]
+))
+print("Interactions Detected:", inter_res["interactions_found_count"], "| Safety:", inter_res["safety_evaluation"], flush=True)
+assert inter_res["interactions_found_count"] >= 2
+assert inter_res["safety_evaluation"] == "HIGH_RISK"
+
+print("\n[TEST 18] check_interactions (Drug-Allergy Sensitivity Screening)", flush=True)
+allergy_res = check_interactions_endpoint(CheckInteractionsRequest(
+    medications=["Amoxicillin 500mg", "Telmisartan 40mg"],
+    allergies=["Penicillin (anaphylaxis)"]
+))
+print("Allergy Conflicts:", allergy_res["allergy_conflicts_count"], flush=True)
+assert allergy_res["allergy_conflicts_count"] >= 1
+assert allergy_res["safety_evaluation"] == "HIGH_RISK"
+
+print("\n[TEST 19] generate_summary (Automated SOAP Note & Discharge Summary)", flush=True)
+soap_res = generate_summary_endpoint("UHID-982143", GenerateSummaryRequest(re_identify=True))
+print("SOAP Generated for:", soap_res["patient_name"], "| Standards:", soap_res["standards"], flush=True)
+assert soap_res["status"] == "success"
+assert "[S] SUBJECTIVE" in soap_res["summary_markdown"]
+assert "[P] PLAN" in soap_res["summary_markdown"]
+
+print("\n[TEST 20] get_fhir_bundle (HL7 FHIR R4 Ayushman Bharat Interoperability Bundle)", flush=True)
+fhir_res = get_fhir_bundle_endpoint("UHID-982143")
+print("FHIR Bundle Type:", fhir_res["resourceType"], "| Total Resources:", fhir_res["total"], flush=True)
+assert fhir_res["resourceType"] == "Bundle"
+assert fhir_res["total"] >= 4
+
+print("\n[TEST 21] vitals_telemetry (Cardiac Vitals Logging & Anomaly Detection)", flush=True)
+vitals_before = get_vitals_endpoint("UHID-982143")
+print("Existing Vitals Entries:", len(vitals_before), flush=True)
+assert len(vitals_before) >= 1
+
+new_vital = record_vitals_endpoint("UHID-982143", RecordVitalsRequest(
+    systolic_bp=146,
+    diastolic_bp=94,
+    heart_rate=104,
+    spo2=94
+))
+print("New Vital Logged Status:", new_vital["vital_entry"]["status"], "| Alerts:", new_vital["vital_entry"]["alerts"], flush=True)
+assert new_vital["status"] == "success"
+assert new_vital["vital_entry"]["status"] == "URGENT" or new_vital["vital_entry"]["status"] == "WARNING"
+assert len(new_vital["vital_entry"]["alerts"]) >= 2
+
+print("\n>>> ALL 21 INTEGRATION TESTS PASSED PERFECTLY! <<<", flush=True)
