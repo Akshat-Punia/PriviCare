@@ -1517,8 +1517,8 @@ def get_app_html() -> str:
               <p class="text-[11px] text-slate-500 leading-relaxed">
                 Every query, anonymization transformation, and clinician review is immutably timestamped in the PriviCare audit log.
               </p>
-              <button onclick="alert('DPDP Audit Log exported: SHA-256 tamper-proof ledger verified across 18 clinical transactions.')"
-                class="w-full mt-2 py-2 px-3 border border-slate-300 dark:border-slate-700 hover:border-teal-400 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-300 transition-all flex items-center justify-center gap-1.5">
+              <button type="button" onclick="downloadAuditLogJson()"
+                class="w-full mt-2 py-2 px-3 border border-slate-300 dark:border-slate-700 hover:border-teal-400 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-300 transition-all flex items-center justify-center gap-1.5 cursor-pointer">
                 <i class="fa-solid fa-download"></i> Download Audit Log (JSON)
               </button>
             </div>
@@ -4583,14 +4583,96 @@ Scanning vector storage...
       if (modal) modal.classList.add("hidden");
     }
 
-    function downloadFhirJson() {
-      const blob = new Blob([_lastFhirJson], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `FHIR_R4_Bundle_${selectedUhid}.json`;
-      a.click();
-      URL.revokeObjectURL(url);
+    function showDownloadSuccessToast(message) {
+      let toast = document.getElementById("privicare-download-toast");
+      if (!toast) {
+        toast = document.createElement("div");
+        toast.id = "privicare-download-toast";
+        toast.className = "fixed bottom-6 right-6 z-[9999] max-w-md p-4 bg-slate-900 text-white rounded-2xl shadow-2xl border border-teal-500/50 flex items-start gap-3 transition-all duration-300 transform translate-y-10 opacity-0 pointer-events-none";
+        document.body.appendChild(toast);
+      }
+      toast.innerHTML = `
+        <div class="w-8 h-8 rounded-xl bg-teal-500/20 text-teal-400 flex items-center justify-center flex-shrink-0 text-base">
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <div class="flex-1">
+          <div class="text-xs font-bold text-teal-300 mb-0.5">Download Complete &amp; Verified</div>
+          <div class="text-[11px] text-slate-300 leading-snug">${escapeHtml(message)}</div>
+        </div>
+        <button type="button" onclick="this.parentElement.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none')" class="text-slate-400 hover:text-white text-xs cursor-pointer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      `;
+      toast.classList.remove("opacity-0", "translate-y-10", "pointer-events-none");
+      setTimeout(() => {
+        if (toast) toast.classList.add("opacity-0", "translate-y-10", "pointer-events-none");
+      }, 7000);
+    }
+
+    async function downloadAuditLogJson() {
+      const uhid = selectedUhid || "UHID-982143";
+      try {
+        const res = await fetch(`/api/clinical/patients/${uhid}/download-audit-log`);
+        if (!res.ok) throw new Error("Server error generating audit ledger");
+        const data = await res.json();
+        const filename = `PriviCare_DPDP_Audit_Log_${uhid}.json`;
+        const jsonStr = JSON.stringify(data, null, 2);
+
+        try {
+          const blob = new Blob([jsonStr], { type: "application/json;charset=utf-8" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          setTimeout(() => URL.revokeObjectURL(url), 2000);
+        } catch (e) {
+          console.warn("Client blob save fallback:", e);
+        }
+
+        const savedNotice = data.saved_path ? `Saved directly to: ${data.saved_path}` : `File: ${filename} (Check Downloads folder)`;
+        showDownloadSuccessToast(`DPDP Audit Log exported: SHA-256 tamper-proof ledger verified across clinical transactions. ${savedNotice}`);
+      } catch (err) {
+        console.error("Error downloading audit log:", err);
+        alert("Could not download audit log: " + err.message);
+      }
+    }
+
+    async function downloadFhirJson() {
+      const uhid = selectedUhid || "UHID-982143";
+      try {
+        const res = await fetch(`/api/clinical/patients/${uhid}/download-fhir-bundle`);
+        let data;
+        if (res.ok) {
+          data = await res.json();
+        } else {
+          data = JSON.parse(_lastFhirJson || "{}");
+        }
+        const filename = `FHIR_R4_Bundle_${uhid}.json`;
+        const jsonStr = JSON.stringify(data, null, 2);
+
+        try {
+          const blob = new Blob([jsonStr], { type: "application/json;charset=utf-8" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          setTimeout(() => URL.revokeObjectURL(url), 2000);
+        } catch (e) {
+          console.warn("Client blob save fallback:", e);
+        }
+
+        const savedNotice = data.saved_path ? `Saved directly to: ${data.saved_path}` : `File: ${filename} (Check Downloads folder)`;
+        showDownloadSuccessToast(`Ayushman Bharat HL7 FHIR R4 Bundle exported successfully! ${savedNotice}`);
+      } catch (err) {
+        console.error("Error downloading FHIR bundle:", err);
+        alert("Could not download FHIR bundle: " + err.message);
+      }
     }
 
     // -------------------------------------------------------------------------

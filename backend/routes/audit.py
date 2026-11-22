@@ -122,13 +122,20 @@ def export_audit_report(format: str = Query("json", pattern="^(json|csv)$")):
         for ev in events:
             writer.writerow(ev)
         csv_data = output.getvalue()
+        try:
+            dl_dir = os.path.join(os.path.expanduser("~"), "Downloads")
+            if os.path.isdir(dl_dir):
+                with open(os.path.join(dl_dir, "HealthGuard_Compliance_Audit.csv"), "w", encoding="utf-8") as f:
+                    f.write(csv_data)
+        except Exception:
+            pass
         return Response(
             content=csv_data,
             media_type="text/csv",
             headers={"Content-Disposition": "attachment; filename=HealthGuard_Compliance_Audit.csv"}
         )
 
-    return {
+    json_data = json.dumps({
         "report_generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ"),
         "compliance_certifications": [
             "US HIPAA Safe Harbor (45 CFR § 164.514)",
@@ -137,7 +144,19 @@ def export_audit_report(format: str = Query("json", pattern="^(json|csv)$")):
         ],
         "total_events": len(events),
         "events": events,
-    }
+    }, indent=2)
+    try:
+        dl_dir = os.path.join(os.path.expanduser("~"), "Downloads")
+        if os.path.isdir(dl_dir):
+            with open(os.path.join(dl_dir, "privicare_compliance_audit.json"), "w", encoding="utf-8") as f:
+                f.write(json_data)
+    except Exception:
+        pass
+    return Response(
+        content=json_data,
+        media_type="application/json",
+        headers={"Content-Disposition": "attachment; filename=privicare_compliance_audit.json"}
+    )
 
 
 # ---------------------------------------------------------------------------

@@ -29,6 +29,8 @@ from routes.clinical import (
     get_vitals_endpoint,
     record_vitals_endpoint,
     RecordVitalsRequest,
+    download_patient_audit_log,
+    download_patient_fhir_bundle,
 )
 
 print("[TEST 1] health_check", flush=True)
@@ -203,4 +205,22 @@ assert new_vital["status"] == "success"
 assert new_vital["vital_entry"]["status"] == "URGENT" or new_vital["vital_entry"]["status"] == "WARNING"
 assert len(new_vital["vital_entry"]["alerts"]) >= 2
 
-print("\n>>> ALL 21 INTEGRATION TESTS PASSED PERFECTLY! <<<", flush=True)
+print("\n[TEST 22] download_patient_audit_log (DPDP Act 2023 SHA-256 Tamper-Proof Ledger)", flush=True)
+audit_download = download_patient_audit_log("UHID-982143")
+assert audit_download.status_code == 200
+assert "attachment; filename=PriviCare_DPDP_Audit_Log_UHID-982143.json" in audit_download.headers["Content-Disposition"]
+import json
+audit_json = json.loads(audit_download.body.decode("utf-8"))
+print("Integrity Hash:", audit_json["integrity_hash"][:16], "... | Events:", len(audit_json["audit_trail_events"]), flush=True)
+assert len(audit_json["integrity_hash"]) == 64
+assert len(audit_json["audit_trail_events"]) >= 3
+
+print("\n[TEST 23] download_patient_fhir_bundle (HL7 FHIR R4 Ayushman Bharat Download)", flush=True)
+fhir_download = download_patient_fhir_bundle("UHID-982143")
+assert fhir_download.status_code == 200
+assert "attachment; filename=FHIR_R4_Bundle_UHID-982143.json" in fhir_download.headers["Content-Disposition"]
+fhir_dl_json = json.loads(fhir_download.body.decode("utf-8"))
+print("FHIR Bundle Downloaded Total Resources:", fhir_dl_json["total"], flush=True)
+assert fhir_dl_json["total"] >= 4
+
+print("\n>>> ALL 23 INTEGRATION TESTS PASSED PERFECTLY! <<<", flush=True)
